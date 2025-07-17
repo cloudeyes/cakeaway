@@ -35,8 +35,8 @@ Cakeaway는 롤러코스터 타이쿤의 전략적 깊이와 현대 웹 기술�
 
 ### 사전 요구사항
 
-- **Node.js** v18+ (LTS 권장)
-- **pnpm** v8+ (패키지 매니저)
+- **Node.js** v22+ (LTS 권장)
+- **pnpm** v10+ (패키지 매니저)
 - **최신 브라우저** (Chrome, Firefox, Safari)
 
 ### 설치

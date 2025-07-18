@@ -77,6 +77,10 @@
 - **개발 환경 설정**: `docs/onboarding.md` 참조
 - **전체 아키텍처**: `docs/overview.md` 참조
 - **프로젝트 요구사항**: `docs/requirements.md` 참조
+- **게임 기획 및 시스템**: `docs/game-design.md` 참조
+- **AI 도구 활용법**: `docs/ai-tools-guide.md` 참조
+- **개발 일정**: `docs/schedule.md` 참조
+- **핵심 비즈니스 컨텍스트**: `docs/core-context.md` 참조
 - **빌드/테스트 문제**: `docs/onboarding.md` 참조
 
 **중요**: 이 프로젝트는 AI가 대부분의 코드를 생성하는 Vibe Coding 방식으로 개발되지만,

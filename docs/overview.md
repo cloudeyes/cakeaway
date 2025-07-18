@@ -68,50 +68,7 @@
 3. **반복적 개선**: 테스트 결과 기반 프롬프트 재구성
 4. **통합 및 최적화**: 생성된 코드 검토 및 통합
 
-## 게임 시스템 설계
-
-### 핵심 시스템 아키텍처
-
-#### 1. 그리드 시스템
-```typescript
-interface Grid {
-  width: number;
-  height: number;
-  tiles: Tile[][];
-}
-
-interface Tile {
-  x: number;
-  y: number;
-  type: TileType;
-  occupant?: GameObject;
-}
-```
-
-#### 2. 게임 객체 시스템
-```typescript
-abstract class GameObject {
-  position: Vector2;
-  type: GameObjectType;
-  abstract update(deltaTime: number): void;
-}
-
-class ProductionFacility extends GameObject {
-  recipe: Recipe;
-  productionTimer: number;
-  inventory: Item[];
-}
-```
-
-#### 3. 생산 시스템
-- **Recipe 관리**: 각 케이크 종류별 제조법 정의
-- **생산 스케줄링**: 설비별 생산 계획 및 최적화
-- **품질 관리**: EIN/ECN 프로세스를 통한 품질 개선
-
-#### 4. 물류 시스템
-- **컨베이어 벨트**: 아이템 이동 및 경로 최적화
-- **물류 네트워크**: 생산 라인 간 연결 관리
-- **재고 관리**: 원자재 및 완제품 재고 시스템
+*상세한 AI 도구 활용 방법은 `docs/ai-tools-guide.md`를 참조하세요.*
 
 ## 그래픽 및 아트 디렉션
 
@@ -133,24 +90,7 @@ class ProductionFacility extends GameObject {
 - **효과음**: ElevenLabs로 기계 소리, 생산 효과음 제작
 - **적응형 사운드**: Mubert로 게임 상황별 동적 배경음 생성
 
-## 개발 단계별 목표
-
-### 2주 MVP (최소 기능 제품)
-**Week 1**: 기반 구축 + 렌더링
-- Day 1-2: 프로젝트 초기화 및 Phaser.js 통합
-- Day 3-4: 아이소메트릭 렌더링 및 AI 그래픽 통합
-- Day 5: 마우스 상호작용 및 설비 배치
-
-**Week 2**: 시뮬레이션 로직 + UI 완성
-- Day 6-7: 생산 시스템 및 물류 구현
-- Day 8-9: React UI 및 상태 동기화
-- Day 10: 최종 폴리싱 및 배포 준비
-
-### 확장 계획 (MVP 이후)
-- **고급 생산 시스템**: 복잡한 Recipe 및 EIN/ECN 프로세스
-- **시장 경제 시스템**: 실시간 가격 변동 및 수요 예측
-- **멀티 플레이어**: 협동 공장 운영 모드
-- **모바일 최적화**: 터치 인터페이스 지원
+*상세한 게임 시스템 설계는 `docs/game-design.md`를 참조하세요.*
 
 ## 성능 최적화 전략
 
@@ -187,6 +127,8 @@ class ProductionFacility extends GameObject {
 - **사용자 피드백**: 게임 내 피드백 시스템 구축
 - **업데이트 관리**: 지속적인 콘텐츠 업데이트 계획
 - **커뮤니티 운영**: 플레이어 커뮤니티 구축 및 관리
+
+*상세한 개발 일정은 `docs/schedule.md`를 참조하세요.*
 
 ## 프로젝트 성공 지표
 

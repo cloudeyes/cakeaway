@@ -9,6 +9,12 @@
 - **TypeScript**: v5 엄격 모드 필수, `any` 타입 사용 금지
 - **아키텍처**: 모노레포 구조 준수, 패키지 간 관심사 분리 엄격 준수
 - **개발 방식**: Vibe Coding - GitHub Copilot 기반으로 80-95% 코드 생성
+- **금지**: 임의로 React 프로젝트 생성 금지.
+  - **항상 Vite React TypeScript 템플릿으로 프로젝트 생성**: `pnpm create vite@latest --template react-ts <패키지명>`
+- **도구**: 2025년 7월 기준 최신 도구 사용
+  - **Node.js**: v22 최신 LTS 버전 사용
+  - **pnpm**: v10 최신 버전 사용
+  - **Phaser.js**: v3.9 버전 사용
 
 ## 핵심 프로젝트 컨텍스트
 

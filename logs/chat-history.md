@@ -1,6 +1,6 @@
 # Vibe Coding Chat History
 
-## 2025-07-18
+## 프로젝트 설정
 
 > docs/requirements.md 문서는 Vibe 코딩을 위해 개발자와 AI 가 대화한 초기 모든 요구사항이 담겨있습니다. 이를 바탕으로 프로젝트 전반적인 내용을 조망하는 docs/overview.md 와 프로젝트의 전역 컨텍스트를 담당하는 docs/onboarding.md 를 작성하고자 합니다.
 >
@@ -193,3 +193,21 @@
 - 접근성: GitHub 생태계 내에서 더 쉬운 설정 및 사용
 
 이제 GitHub Copilot을 중심으로 한 Vibe Coding 개발 환경이 준비되었습니다. 필요하다면 Cursor를 보조 도구로 활용할 수 있지만, 기본적으로는 GitHub Copilot만으로도 충분히 효과적인 개발이 가능합니다.
+
+---
+
+## 개발 작업
+
+### Day 1
+
+> copilot-instructions.md 파일 업데이트
+> - **금지**: 임의로 React 프로젝트 생성 금지.
+>   - **항상 Vite React TypeScript 템플릿으로 프로젝트 생성**: `pnpm create vite@latest --template react-ts <패키지명>`
+> - **도구**: 2025년 7월 기준 최신 도구 사용
+>   - **Node.js**: v22 최신 LTS 버전 사용
+>   - **pnpm**: v10 최신 버전 사용
+>   - **Phaser.js**: v3.9 버전 사용
+
+> schedule.md 의 Day 1 작업을 시작해주세요. 모노레포의 패키지는 `pnpm create vite --template=react-ts` 명령을 사용해주세요.
+>
+> (Agent: Claude Sonnet 4, Context: schedule.md)

@@ -71,12 +71,26 @@ pnpm build:watch
 # 테스트 실행
 pnpm test
 
+# e2e 테스트 실행 (Playwright)
+pnpm test:e2e
+
 # 린트 실행
 pnpm lint
 
 # 빌드 정리
 pnpm clean
 ```
+
+### 게임 기능 (현재 구현 상태)
+
+- ✅ **React + Phaser.js 통합**: 게임 캔버스와 React UI 동시 렌더링
+- ✅ **그리드 시스템**: 20x15 그리드 기반 아이소메트릭 레이아웃
+- ✅ **마우스 상호작용**: 그리드 클릭 시 하이라이트 표시
+- ✅ **TypeScript Project References**: 빌드 없이 실시간 개발
+- ✅ **Playwright e2e 테스트**: 브라우저 환경에서 게임 동작 검증
+- 🚧 **아이소메트릭 렌더링**: 다음 단계 (Day 3)
+- 🚧 **설비 배치 시스템**: 개발 예정
+- 🚧 **생산 시스템**: 개발 예정
 
 ## 🏗️ 아키텍처
 

@@ -30,14 +30,15 @@
 ├── packages/
 │   ├── app/                 # React v19 UI + Phaser.js v3.9 렌더링
 │   │   ├── src/
-│   │   │   ├── components/  # React 컴포넌트
-│   │   │   ├── phaser/      # Phaser.js 게임 씬
+│   │   │   ├── components/  # React 컴포넌트 (GameCanvas.tsx ✅)
+│   │   │   ├── phaser/      # Phaser.js 게임 씬 (MainScene.ts ✅)
 │   │   │   └── hooks/       # React 상태 관리
+│   │   ├── tests/e2e/       # Playwright e2e 테스트 ✅
 │   │   ├── vite.config.ts   # Vite 설정 (alias 포함)
 │   │   └── tsconfig.json    # TypeScript 설정
 │   └── simulation-engine/   # 순수 TypeScript v5 게임 로직
 │       ├── src/
-│       │   ├── grid.ts      # 그리드 시스템 (기본 구현 완료)
+│       │   ├── grid.ts      # 그리드 시스템 (기본 구현 완료 ✅)
 │       │   └── index.ts     # 패키지 내보내기
 │       └── tsconfig.json    # TypeScript 설정 (composite: true)
 ├── pnpm-workspace.yaml      # pnpm 워크스페이스 설정
@@ -76,11 +77,14 @@
 
 ### 핵심 게임 시스템
 
-1. **그리드 시스템 (Grid System)**: 아이소메트릭 타일 기반 공장 레이아웃 (기본 구현 완료)
-2. **생산 시스템 (Production System)**: 레시피 기반 케이크 제조
-3. **물류 시스템 (Logistics System)**: 컨베이어 벨트 및 아이템 이동
-4. **EIN/ECN 프로세스**: 엔지니어링 변경 관리 시뮬레이션
-5. **시장 시스템 (Market System)**: 실시간 가격 변동 및 수요
+1. **그리드 시스템 (Grid System)**: ✅ 아이소메트릭 타일 기반 공장 레이아웃 (기본 구현 완료)
+2. **React-Phaser 통합**: ✅ GameCanvas 컴포넌트로 게임 렌더링 (Day 2 완료)
+3. **마우스 상호작용**: ✅ 그리드 클릭 시 하이라이트 표시 (Day 2 완료)
+4. **e2e 테스트**: ✅ Playwright로 브라우저 환경 검증 (Day 2 완료)
+5. **생산 시스템 (Production System)**: 🚧 레시피 기반 케이크 제조 (Day 6 예정)
+6. **물류 시스템 (Logistics System)**: 🚧 컨베이어 벨트 및 아이템 이동 (Day 7 예정)
+7. **EIN/ECN 프로세스**: 🚧 엔지니어링 변경 관리 시뮬레이션 (향후 구현)
+8. **시장 시스템 (Market System)**: 🚧 실시간 가격 변동 및 수요 (향후 구현)
 
 ## 핵심 개발 패턴
 

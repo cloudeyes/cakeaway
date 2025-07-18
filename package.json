@@ -21,6 +21,7 @@
     "build:watch": "tsc --build --watch",
     "build:packages": "pnpm --filter @cakeaway/simulation-engine build && pnpm --filter @cakeaway/app build",
     "test": "pnpm --recursive test",
+    "test:e2e": "pnpm --filter @cakeaway/app exec playwright test",
     "clean": "pnpm --recursive clean",
     "lint": "pnpm --recursive lint",
     "type-check": "tsc --build --noEmit"

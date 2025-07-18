@@ -115,3 +115,81 @@
 - schedule.md - 개발 일정 관리에 집중
 - core-context.md - 비즈니스 컨텍스트 및 타당성 분석
 - copilot-instructions.md - AI 코딩 에이전트 지침 업데이트
+
+---
+
+> ai-tools-guide.md 와 schedule 에서 Cursor 가 메인 작업 도구로 되어 있는데 2025년 7월 Github Copilot 에 향상된 기능으로도 충분히 Vibe Coding이 가능합니다. Github Copilot 를 메인 도구로 관련 내용을 추가/업데이트 해주시고 Cursor를 대체(Alternative) Vibe Coding 도구가 되도록. 이와 관련한 docs 내 다른 파일이나 .github/copilot-instructions.md 파일 업데이트가 필요한지 검토 후 진행해주세요.
+>
+> *(Agent: Claude Sonnet 4)*
+
+먼저 docs 폴더 내 다른 파일들을 확인하고 관련 파일들을 업데이트하겠습니다.
+
+- Read docs
+- Read copilot-instructions.md, lines 1 to 50
+- Read copilot-instructions.md, lines 51 to 88
+- Read onboarding.md, lines 1 to 100
+
+이제 각 파일을 업데이트하여 GitHub Copilot을 메인 도구로, Cursor를 대체 도구로 변경하겠습니다.
+
+- ai-tools-guide.md
+
+이제 schedule.md 파일을 업데이트하겠습니다:
+
+- schedule.md
+
+이제 다른 관련 파일들도 확인하여 업데이트하겠습니다:
+
+- Read onboarding.md
+- onboarding.md+3-2
+
+이제 copilot-instructions.md 파일도 업데이트하겠습니다:
+
+- copilot-instructions.md
+
+마지막으로 overview.md와 core-context.md 파일도 확인하고 업데이트하겠습니다:
+
+- Read overview.md, lines 25 to 80
+- overview.md
+
+- Read core-context.md, lines 110 to 140
+- core-context.md
+
+완료되었습니다! 다음과 같이 문서들을 업데이트했습니다:
+
+**주요 변경사항**
+
+1. ai-tools-guide.md
+   - GitHub Copilot을 메인 도구로 변경
+   - Cursor를 대체 도구로 재정의
+   - GitHub Copilot의 2025년 새로운 기능들 추가:
+     - 워크스페이스 에이전트 활용법
+     - 멀티 파일 편집 기능
+     - 향상된 코드베이스 이해 기능
+   - 프롬프트 전략을 GitHub Copilot 중심으로 업데이트
+   - 비용 구조 개선 (월 $50-80로 절약)
+2. schedule.md
+   - Cursor Agent 모드 → GitHub Copilot 워크스페이스 에이전트로 변경
+   - 모든 프롬프트 예시를 @workspace 태그 활용 방식으로 업데이트
+   - 키바인딩 및 설정 방법 업데이트
+   - 비용 최적화 반영
+3. onboarding.md
+   - GitHub Copilot을 메인 도구로 재배치
+   - Cursor를 선택사항으로 변경
+   - 프로젝트 구조에서 copilot-instructions.md 강조
+   - 개발 워크플로우를 GitHub Copilot 중심으로 수정
+4. copilot-instructions.md
+   - GitHub Copilot 2025 활용 지침 추가
+   - 워크스페이스 에이전트 사용법 명시
+   - 멀티 파일 편집 가이드라인 포함
+5. overview.md & core-context.md
+   - 주요 AI 도구 순서 변경
+   - 비용 구조 업데이트
+   - 개발 워크플로우 설명 수정
+
+**주요 개선점**
+- 비용 효율성: 월 $90-110 → $50-80로 약 40% 절약
+- 최신 기능 활용: GitHub Copilot의 2025년 향상된 기능 반영
+- 개발 효율성: 워크스페이스 에이전트로 멀티 파일 작업 최적화
+- 접근성: GitHub 생태계 내에서 더 쉬운 설정 및 사용
+
+이제 GitHub Copilot을 중심으로 한 Vibe Coding 개발 환경이 준비되었습니다. 필요하다면 Cursor를 보조 도구로 활용할 수 있지만, 기본적으로는 GitHub Copilot만으로도 충분히 효과적인 개발이 가능합니다.

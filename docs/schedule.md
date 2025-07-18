@@ -2,7 +2,7 @@
 
 ## 개요
 
-이 문서는 **Vibe Coding 도구(Cursor, VSCode Copilot)를 적극 활용**하여 AI가 대부분의 코드를 생성하도록 설계된 2주 집중 개발 계획입니다. Tower of Time 사례를 벤치마킹하여 AI가 80-90%의 코드를 자동 생성하며, 매일 플레이 가능한 결과물을 목표로 합니다.
+이 문서는 **Vibe Coding 도구(GitHub Copilot, Cursor)를 적극 활용**하여 AI가 대부분의 코드를 생성하도록 설계된 2주 집중 개발 계획입니다. Tower of Time 사례를 벤치마킹하여 AI가 80-90%의 코드를 자동 생성하며, 매일 플레이 가능한 결과물을 목표로 합니다.
 
 ## 기술 스택
 
@@ -29,7 +29,7 @@
 - AI 도구로 **80-90%의 코드를 자동 생성**하여 개발 시간 단축
 - 매일 **플레이 가능한 결과물**을 목표로 점진적 개발
 - **필수 기능만 구현**하여 MVP 완성에 집중
-- Cursor Agent 모드와 세부 프롬프트로 **빠른 반복 개발**
+- GitHub Copilot 워크스페이스 에이전트와 세부 프롬프트로 **빠른 반복 개발**
 
 ---
 
@@ -39,14 +39,14 @@
 
 **목표**: 전체 프로젝트 골격 완성 및 AI 도구 최적화
 
-**Cursor Agent 모드 활용**:
-- 프롬프트: "pnpm 모노레포로 @cakeaway/app과 @cakeaway/simulation-engine 생성. TypeScript v5, React v19, Phaser.js v3.9, Vite v7 포함"
+**GitHub Copilot 워크스페이스 에이전트 활용**:
+- 프롬프트: "@workspace pnpm 모노레포로 @cakeaway/app과 @cakeaway/simulation-engine 생성. TypeScript v5, React v19, Phaser.js v3.9, Vite v7 포함"
 - 모든 package.json과 tsconfig.json을 AI로 생성
 - 기본 폴더 구조와 빌드 스크립트 자동 생성
 
 **세부 작업**:
-- Cursor 규칙 파일(.cursor/rules) 설정: "Phaser.js v3.9 문서 참조, TypeScript 엄격 모드"
-- VSCode Copilot 연동 및 키바인딩 설정
+- GitHub Copilot 지침 파일(.github/copilot-instructions.md) 설정: "Phaser.js v3.9 문서 참조, TypeScript 엄격 모드"
+- VSCode 확장 및 키바인딩 설정
 - 기본 Grid, Tile, GameObject 클래스 AI 생성
 
 **출력물**: 작동하는 모노레포 환경
@@ -55,9 +55,9 @@
 
 **목표**: React에 Phaser.js 통합 및 첫 화면 렌더링
 
-**Cursor 프롬프트 전략**:
-- "React v19 컴포넌트에 Phaser.js v3.9 게임 인스턴스 생성. GameCanvas 컴포넌트 구현"
-- "Phaser Scene 클래스로 기본 게임 씬 생성, 배경 렌더링"
+**GitHub Copilot 프롬프트 전략**:
+- "@workspace React v19 컴포넌트에 Phaser.js v3.9 게임 인스턴스 생성. GameCanvas 컴포넌트 구현"
+- "@workspace Phaser Scene 클래스로 기본 게임 씬 생성, 배경 렌더링"
 
 **세부 작업**:
 - React-Phaser 통합 컴포넌트 AI 생성
@@ -71,7 +71,7 @@
 **목표**: 그리드 기반 아이소메트릭 뷰 구현
 
 **AI 도구 활용**:
-- Cursor 채팅 모드: "simulation-engine 그리드 데이터로 아이소메트릭 타일맵 렌더링 코드 생성"
+- GitHub Copilot 채팅 모드: "@workspace simulation-engine 그리드 데이터로 아이소메트릭 타일맵 렌더링 코드 생성"
 - 좌표 변환 공식과 타일 배치 로직 AI 생성
 - 기본 타일 스프라이트 placeholder 생성
 
@@ -91,8 +91,8 @@
 - 첫 번째 설비(오븐) 스프라이트 생성
 - 컨베이어 벨트 스프라이트 생성
 
-**Cursor 통합 프롬프트**:
-- "생성된 스프라이트 파일을 Phaser.js로 로드하고 렌더링하는 코드 생성"
+**GitHub Copilot 통합 프롬프트**:
+- "@workspace 생성된 스프라이트 파일을 Phaser.js로 로드하고 렌더링하는 코드 생성"
 - 아트 에셋 관리 시스템 AI 생성
 
 **세부 작업**:
@@ -107,8 +107,8 @@
 **목표**: 사용자 입력 처리 및 기본 게임플레이 구현
 
 **Vibe Coding 접근**:
-- "마우스 클릭으로 아이소메트릭 그리드 좌표 계산하는 함수 생성"
-- "클릭한 위치에 오븐 설비 배치하는 로직 구현"
+- "@workspace 마우스 클릭으로 아이소메트릭 그리드 좌표 계산하는 함수 생성"
+- "@workspace 클릭한 위치에 오븐 설비 배치하는 로직 구현"
 
 **세부 작업**:
 - 마우스 이벤트 → 그리드 좌표 변환
@@ -126,7 +126,7 @@
 **목표**: 핵심 게임 메커니즘인 생산 로직 구현
 
 **AI 생성 로직**:
-- Cursor 프롬프트: "오븐 설비가 일정 틱마다 케이크를 생산하는 simulation-engine 로직 구현"
+- GitHub Copilot 프롬프트: "@workspace 오븐 설비가 일정 틱마다 케이크를 생산하는 simulation-engine 로직 구현"
 - 생산 타이머, 결과물 생성, 인벤토리 관리 시스템
 
 **세부 작업**:
@@ -141,7 +141,7 @@
 **목표**: 아이템 이동 및 물류 라인 구현
 
 **Vibe Coding 전략**:
-- "컨베이어 벨트 설치 기능과 아이템 이동 로직 구현"
+- "@workspace 컨베이어 벨트 설치 기능과 아이템 이동 로직 구현"
 - 아이템 이동 애니메이션과 방향 제어 시스템
 
 **세부 작업**:
@@ -156,7 +156,7 @@
 **목표**: Phaser 외부 React UI 구성
 
 **AI 도구 활용**:
-- "Phaser 캔버스 외부에 React v19 UI 패널 생성. 생산량 표시 및 설비 선택 메뉴"
+- "@workspace Phaser 캔버스 외부에 React v19 UI 패널 생성. 생산량 표시 및 설비 선택 메뉴"
 - React 상태 관리와 Phaser 게임 상태 동기화
 
 **세부 작업**:
@@ -170,8 +170,8 @@
 
 **목표**: 모든 시스템 연동 및 통합 테스트
 
-**Cursor Agent 모드**:
-- "simulation-engine 상태 변경을 React UI에 반영하는 훅 시스템 구현"
+**GitHub Copilot 워크스페이스 에이전트**:
+- "@workspace simulation-engine 상태 변경을 React UI에 반영하는 훅 시스템 구현"
 - 실시간 상태 동기화 최적화
 
 **세부 작업**:
@@ -186,8 +186,8 @@
 **목표**: 버그 수정, 최적화, 배포 준비
 
 **AI 기반 최적화**:
-- "전체 코드 검토 및 성능 최적화 제안"
-- "Vite v7 빌드 설정 최적화 및 정적 배포 준비"
+- "@workspace 전체 코드 검토 및 성능 최적화 제안"
+- "@workspace Vite v7 빌드 설정 최적화 및 정적 배포 준비"
 
 **세부 작업**:
 - 발견된 버그 수정 및 예외 처리
@@ -202,22 +202,22 @@
 
 ### 매일 권장 워크플로우
 
-1. **아침 (30분)**: Cursor Agent 모드로 당일 목표 코드 생성
+1. **아침 (30분)**: GitHub Copilot 워크스페이스 에이전트로 당일 목표 코드 생성
 2. **오전 (2시간)**: AI 생성 코드 테스트 및 디버깅
-3. **오후 (2시간)**: VSCode Copilot으로 세부 기능 구현
+3. **오후 (2시간)**: GitHub Copilot 인라인 편집으로 세부 기능 구현
 4. **저녁 (30분)**: 프롬프트 로그 문서화 및 다음날 계획
 
 ### 효과적인 프롬프트 전략
 
-- **구체적 지시**: "Phaser.js v3.9 문서 참조하여 타일맵 렌더링 코드 생성"
+- **구체적 지시**: "@workspace Phaser.js v3.9 문서 참조하여 타일맵 렌더링 코드 생성"
 - **예외 처리**: "에러 발생 시 콘솔 로그와 함께 디버깅 정보 추가"
 - **코드 품질**: "TypeScript 엄격 모드 준수, ESLint 규칙 적용"
 - **아키텍처 준수**: "모노레포 구조 준수, 패키지 간 관심사 분리"
 
-### Cursor 설정 및 활용
+### GitHub Copilot 설정 및 활용 (2025년 업데이트)
 
 #### 환경 설정
-- **Cursor 규칙 파일(.cursor/rules)**:
+- **GitHub Copilot 지침 파일(.github/copilot-instructions.md)**:
   ```
   - Phaser.js v3.9 문서 참조
   - TypeScript v5 엄격 모드 준수
@@ -226,17 +226,18 @@
   - any 타입 절대 금지
   ```
 
-#### 키바인딩
-- **Cmd/Ctrl + K**: 코드 생성
-- **Cmd/Ctrl + L**: 채팅 모드
-- **Cmd/Ctrl + I**: 인라인 편집
+#### 키바인딩 (VSCode)
+- **Cmd/Ctrl + I**: 인라인 채팅 및 코드 생성
+- **Cmd/Ctrl + Shift + I**: 사이드바 채팅 패널
+- **Tab**: 제안 수락
+- **Alt + ]**: 다음 제안
 
 ### 예상 비용
 
-- **Cursor Pro**: $20/월
-- **Claude Sonnet 4**: $30-50 (프로젝트 전체)
+- **GitHub Copilot Pro**: $20/월
+- **Claude Sonnet 4**: $20-30 (대체 도구로 Cursor 사용 시)
 - **AI 그래픽 도구**: $30/월 (Midjourney 등)
-- **총 예상 비용**: $80-100 (2주 기준)
+- **총 예상 비용**: $50-80 (GitHub Copilot 중심)
 
 ---
 
@@ -262,4 +263,4 @@
 - **사용자 경험**: 직관적인 UI, 즉각적인 피드백
 - **확장성**: 새로운 설비/기능 추가 용이성
 
-이 계획을 통해 **Tower of Time 사례처럼 AI가 85-95%의 코드를 생성**하며, 개발자는 아이디어 검증과 창의적 문제 해결에 집중할 수 있습니다.
+이 계획을 통해 **Tower of Time 사례처럼 AI가 85-95%의 코드를 생성**하며, 개발자는 아이디어 검증과 창의적 문제 해결에 집중할 수 있습니다. GitHub Copilot의 2025년 향상된 기능으로 더욱 효율적인 개발이 가능합니다.

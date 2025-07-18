@@ -26,7 +26,7 @@ Cakeaway는 롤러코스터 타이쿤의 전략적 깊이와 현대 웹 기술�
 - **품질 관리**: 전체 배포 전 제한된 생산에서 레시피 테스트
 
 ### 🤖 **AI 기반 개발**
-- **Vibe Coding**: 자연어 프롬프트를 통해 80-95%의 코드 생성
+- **Vibe Coding**: GitHub Copilot 기반으로 80-95%의 코드 생성
 - **AI 생성 그래픽**: Midjourney, Leonardo AI를 사용한 완전한 비주얼 에셋 제작
 - **AI 기반 사운드**: Suno AI, ElevenLabs로 생성된 배경 음악 및 효과음
 - **빠른 프로토타이핑**: 가속화된 개발을 위한 Tower of Time 방법론
@@ -98,8 +98,9 @@ cakeaway/
 │   ├── onboarding.md          # 개발자 설정 가이드
 │   └── requirements.md        # 원본 요구사항 분석
 │
-├── .cursor/                   # 🤖 AI 코딩 설정
-└── .github/                   # GitHub 워크플로우 및 템플릿
+├── .github/                   # GitHub 워크플로우 및 Copilot 지침
+│   └── copilot-instructions.md
+├── .cursor/                   # 🤖 AI 코딩 설정 (대체 도구)
 ```
 
 ### 기술 스택
@@ -159,25 +160,27 @@ interface IMarketData {
 
 ```bash
 # AI 개발 환경 설정
-brew install --cask cursor                    # 메인 AI 코딩 도구
-code --install-extension GitHub.copilot       # 보조 AI 어시스턴트
+code --install-extension GitHub.copilot       # 메인 AI 코딩 도구
+code --install-extension GitHub.copilot-chat  # AI 채팅 어시스턴트
+brew install --cask cursor                    # 대체 AI 도구 (선택사항)
 ```
 
 ### 개발 워크플로우
 
 1. **🎯 요구사항 정의**: 명확하고 구체적인 프롬프트 작성
-2. **🤖 코드 생성**: Cursor Agent 모드로 대량 코드 생성
+2. **🤖 코드 생성**: GitHub Copilot 워크스페이스 에이전트로 대량 코드 생성
 3. **🔧 정제 및 테스트**: AI 피드백과 디버깅으로 반복 개선
-4. **✅ 통합**: AI 생성 코드를 기존 시스템과 통합
+4. **✅통합**: AI 생성 코드를 기존 시스템과 통합
 
 ### AI 프롬프트 예시
 
 ```
-"아이소메트릭 타일 렌더러를 Phaser.js v3.9로 생성하세요:
+"@workspace 아이소메트릭 타일 렌더러를 Phaser.js v3.9로 생성하세요:
 - 2D 그리드 좌표를 아이소메트릭 디스플레이로 변환
 - 적절한 z-ordering을 위한 깊이 정렬 처리
 - 스프라이트 기반 타일 렌더링 지원
-- TypeScript 엄격 모드 준수 포함"
+- TypeScript 엄격 모드 준수 포함
+- React v19 상태 관리와 연동"
 ```
 
 ## 🎨 비주얼 스타일
@@ -296,7 +299,7 @@ cp .env.example .env.production
 ### 개발 환경 설정
 
 1. **📖 문서 읽기**: [`docs/onboarding.md`](docs/onboarding.md)부터 시작
-2. **🔧 환경 설정**: Cursor, pnpm, 의존성 설치
+2. **🔧 환경 설정**: GitHub Copilot, pnpm, 의존성 설치
 3. **🎯 이슈 선택**: GitHub Issues에서 초보자용 이슈 확인
 4. **🤖 AI 도구 사용**: 빠른 개발을 위한 Vibe Coding 활용
 
@@ -348,7 +351,7 @@ cp .env.example .env.production
 ### 현재 상태: **MVP 개발 중** 🚧
 
 - ✅ **아키텍처**: 모노레포 설정 완료
-- ✅ **AI 도구**: Cursor 및 Copilot 구성 완료
+- ✅ **AI 도구**: GitHub Copilot 및 Cursor 구성 완료
 - 🚧 **핵심 시스템**: 생산 로직 진행 중
 - 🚧 **그래픽**: AI 에셋 생성 진행 중
 - ⏳ **UI 통합**: React-Phaser 연결 대기 중
@@ -401,7 +404,7 @@ cp .env.example .env.production
 
 - **🏗️ Tower of Time**: AI 기반 게임 개발 방법론의 영감
 - **🎮 롤러코스터 타이쿤**: 게임 디자인 영감 및 메커니즘
-- **🤖 Cursor & GitHub Copilot**: 이 프로젝트를 가능하게 한 AI 개발 도구
+- **🤖 GitHub Copilot & Cursor**: 이 프로젝트를 가능하게 한 AI 개발 도구
 - **🎨 Midjourney & Leonardo AI**: 게임 아트 생성을 위한 창의적 AI 도구
 - **🚀 Vercel & Netlify**: 웹 배포를 위한 배포 플랫폼
 

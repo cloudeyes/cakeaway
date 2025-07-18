@@ -27,7 +27,7 @@
 - **Build Tool**: Vite v7
 - **Package Manager**: pnpm (워크스페이스 지원)
 - **Testing**: vitest
-- **Development**: Cursor AI + VSCode Copilot (Vibe Coding)
+- **Development**: GitHub Copilot + Cursor AI (Vibe Coding)
 
 ### 아키텍처 패턴
 ```
@@ -58,13 +58,13 @@
 자연어 프롬프트를 통해 AI가 코드의 80-95%를 생성하는 혁신적인 개발 방식입니다. 이 프로젝트는 Tower of Time 게임 사례를 벤치마킹하여 AI 기반 개발 프로세스를 최적화했습니다.
 
 ### 주요 AI 도구
-- **Cursor (메인)**: Agent 모드로 대규모 코드 생성
-- **VSCode Copilot**: 인라인 코드 완성 및 세부 구현
+- **GitHub Copilot (메인)**: 워크스페이스 에이전트로 대규모 코드 생성
+- **Cursor (대체)**: Agent 모드로 멀티 파일 작업
 - **Claude Sonnet 4**: 고급 로직 및 아키텍처 설계
 
 ### 개발 워크플로우
 1. **자연어 요구사항 정의**: 구체적인 프롬프트 작성
-2. **AI 코드 생성**: Cursor Agent 모드로 대량 코드 생성
+2. **AI 코드 생성**: GitHub Copilot 워크스페이스 에이전트로 대량 코드 생성
 3. **반복적 개선**: 테스트 결과 기반 프롬프트 재구성
 4. **통합 및 최적화**: 생성된 코드 검토 및 통합
 

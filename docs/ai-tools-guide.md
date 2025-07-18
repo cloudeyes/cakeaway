@@ -16,25 +16,34 @@
 
 ## 주요 AI 도구 설정
 
-### 1. Cursor (메인 도구)
+### 1. GitHub Copilot (메인 도구)
 
 #### 설치 및 초기 설정
 ```bash
-# Cursor 공식 사이트에서 다운로드
-# https://cursor.sh/
+# VSCode에서 GitHub Copilot 확장 설치
+code --install-extension GitHub.copilot
+code --install-extension GitHub.copilot-chat
 ```
 
 #### 핵심 설정
-- **모델 선택**: Claude Sonnet 4 또는 GPT-4 Turbo 권장
-- **구독**: Cursor Pro ($20/월) - 무제한 사용
+- **모델**: GitHub Copilot의 고도화된 GPT-4 기반 모델 (2025년 7월 업데이트)
+- **구독**: GitHub Copilot Pro ($20/월) - 무제한 사용
 - **키바인딩**:
-  - `Cmd/Ctrl + K`: 코드 생성
-  - `Cmd/Ctrl + L`: 채팅 모드
-  - `Cmd/Ctrl + I`: 인라인 편집
+  - `Cmd/Ctrl + I`: 인라인 채팅 및 코드 생성
+  - `Cmd/Ctrl + Shift + I`: 사이드바 채팅 패널
+  - `Tab`: 제안 수락
+  - `Alt + ]`: 다음 제안
+  - `Alt + [`: 이전 제안
 
-#### 프로젝트 규칙 설정 (.cursor/rules)
+#### GitHub Copilot 2025 새로운 기능
+- **Multi-turn 대화**: 복잡한 요구사항을 단계별로 처리
+- **코드베이스 이해**: 전체 프로젝트 구조 파악 및 컨텍스트 활용
+- **워크스페이스 에이전트**: 파일 생성, 수정, 리팩토링 자동화
+- **향상된 멀티 파일 편집**: 여러 파일 동시 수정 지원
+
+#### 프로젝트 지침 설정 (.github/copilot-instructions.md)
 ```
-# Cakeaway 프로젝트 Cursor 규칙
+# Cakeaway 프로젝트 GitHub Copilot 지침
 - TypeScript v5 엄격 모드 준수
 - React v19 최신 기능 활용
 - Phaser.js v3.9 문서 참조
@@ -45,38 +54,54 @@
 - 디버깅용 콘솔 로그 추가
 ```
 
-### 2. VSCode Copilot (보조 도구)
+### 2. Cursor (대체 도구)
 
-#### 설치 및 설정
+#### 설치 및 설정 (선택사항)
 ```bash
-# VSCode에서 GitHub Copilot 확장 설치
-# 무료 평가판 또는 월 $10 구독
+# Cursor 공식 사이트에서 다운로드
+# https://cursor.sh/
 ```
 
 #### 활용 방법
-- **인라인 완성**: 함수, 클래스 작성 중 자동 제안
-- **코드 주석**: 주석 작성 시 구현 코드 자동 생성
-- **테스트 생성**: 기존 함수에 대한 테스트 케이스 자동 생성
+- **대량 코드 생성**: 큰 규모의 코드 생성이 필요한 경우
+- **Agent 모드**: 복잡한 멀티 파일 작업
+- **Claude 모델**: 특별한 Claude 모델 기능이 필요한 경우
 
-### 3. MCP (Model Context Protocol) 활용
+### 3. 향상된 GitHub Copilot 기능 활용 (2025년 업데이트)
 
-#### 설정 방법
-```json
-// .cursor/mcp.json
-{
-  "contextProviders": [
-    {
-      "name": "codebase",
-      "enabled": true,
-      "maxTokens": 8000
-    },
-    {
-      "name": "docs",
-      "enabled": true,
-      "path": "./docs"
-    }
-  ]
-}
+#### 워크스페이스 에이전트 활용
+```typescript
+// GitHub Copilot에게 자연어로 요청
+/*
+@workspace 아이소메트릭 그리드 시스템을 구현해주세요.
+- simulation-engine 패키지에 Grid 클래스 생성
+- 2D 좌표를 아이소메트릭 좌표로 변환하는 유틸리티 함수
+- Phaser.js v3.9 호환 타일맵 렌더링 코드
+- TypeScript 엄격 모드 준수
+*/
+```
+
+#### 멀티 파일 편집 기능
+```typescript
+// 여러 파일을 동시에 수정하는 프롬프트
+/*
+@workspace 생산 시스템을 구현해주세요:
+1. simulation-engine/src/systems/ProductionSystem.ts - 생산 로직
+2. app/src/components/ProductionUI.tsx - React UI 컴포넌트
+3. app/src/hooks/useProduction.ts - 상태 관리 훅
+4. shared types를 types/production.ts에 정의
+*/
+```
+
+#### 코드베이스 이해 및 컨텍스트 활용
+```typescript
+// 프로젝트 전체 구조를 이해하고 코드 생성
+/*
+@workspace 현재 프로젝트 구조를 분석하고
+컨베이어 벨트 시스템을 추가해주세요.
+기존 Grid와 GameObject 클래스를 활용하여
+물류 시스템을 구현해주세요.
+*/
 ```
 
 ## 효과적인 프롬프트 전략
@@ -88,18 +113,19 @@
 [컨텍스트] + [구체적 요구사항] + [제약 조건] + [예상 결과]
 ```
 
-#### 예시 프롬프트
+#### 예시 프롬프트 (GitHub Copilot 2025)
 ```
-컨텍스트: @cakeaway/simulation-engine 패키지에서 작업 중
+컨텍스트: @workspace @cakeaway/simulation-engine 패키지에서 작업 중
 
 구체적 요구사항:
 - 아이소메트릭 그리드 시스템 구현
 - 2D 좌표를 아이소메트릭 좌표로 변환하는 함수
 - 그리드 타일 클릭 감지 기능
+- Phaser.js v3.9와 연동되는 렌더링 시스템
 
 제약 조건:
 - TypeScript v5 엄격 모드 준수
-- Phaser.js v3.9 API 사용
+- React v19 상태 관리와 연동
 - 에러 처리 포함
 - 단위 테스트 작성
 
@@ -108,43 +134,48 @@
 - 좌표 변환 유틸리티 함수
 - 마우스 이벤트 핸들러
 - vitest 테스트 케이스
+- React 훅으로 상태 관리
 ```
 
 ### 2. 단계별 프롬프트 전략
 
 #### Phase 1: 구조 생성
 ```
-"pnpm 모노레포 구조로 @cakeaway/app과 @cakeaway/simulation-engine 패키지 생성.
-TypeScript v5, React v19, Phaser.js v3.9 설정 포함."
+"@workspace pnpm 모노레포 구조로 @cakeaway/app과 @cakeaway/simulation-engine 패키지 생성.
+TypeScript v5, React v19, Phaser.js v3.9 설정 포함.
+package.json과 tsconfig.json 모두 생성해주세요."
 ```
 
 #### Phase 2: 핵심 로직 구현
 ```
-"simulation-engine에서 Grid, Tile, GameObject 기본 클래스 구현.
-게임 루프(tick) 함수와 상태 관리 시스템 추가."
+"@workspace simulation-engine에서 Grid, Tile, GameObject 기본 클래스 구현.
+게임 루프(tick) 함수와 상태 관리 시스템 추가.
+React 상태와 연동되는 이벤트 시스템 포함."
 ```
 
 #### Phase 3: UI 통합
 ```
-"React 컴포넌트에서 Phaser.js 게임 인스턴스 초기화.
-simulation-engine과 연동하는 상태 관리 훅 구현."
+"@workspace React 컴포넌트에서 Phaser.js 게임 인스턴스 초기화.
+simulation-engine과 연동하는 상태 관리 훅 구현.
+실시간 상태 동기화 시스템 추가."
 ```
 
 ### 3. 디버깅 및 문제 해결 프롬프트
 
 #### 에러 발생 시
 ```
-"다음 에러가 발생했습니다: [에러 메시지]
-관련 코드: [코드 스니펫]
-해결 방법을 제시하고 수정된 코드를 생성해주세요."
+"@workspace 다음 에러가 발생했습니다: [에러 메시지]
+관련 파일: [파일 경로]
+전체 프로젝트 컨텍스트를 고려하여 해결 방법을 제시하고 수정된 코드를 생성해주세요."
 ```
 
 #### 성능 최적화
 ```
-"현재 코드의 성능을 분석하고 최적화해주세요:
-- React 렌더링 최적화
-- Phaser.js 메모리 관리
-- 불필요한 재계산 방지"
+"@workspace 현재 코드의 성능을 분석하고 최적화해주세요:
+- React v19 Compiler 기능 활용
+- Phaser.js 메모리 관리 최적화
+- 불필요한 재렌더링 방지
+- 번들 크기 최적화"
 ```
 
 ## 일일 워크플로우
@@ -152,15 +183,15 @@ simulation-engine과 연동하는 상태 관리 훅 구현."
 ### 아침 (30분): 계획 수립
 1. **일일 목표 설정**: 구현할 기능 명확히 정의
 2. **프롬프트 준비**: 세부 요구사항을 자연어로 작성
-3. **AI 도구 준비**: Cursor 실행, 프로젝트 컨텍스트 로드
+3. **AI 도구 준비**: GitHub Copilot 실행, 프로젝트 컨텍스트 로드
 
 ### 오전 (2시간): 핵심 기능 구현
-1. **Cursor Agent 모드**: 대규모 코드 생성
+1. **GitHub Copilot 워크스페이스 에이전트**: 대규모 코드 생성
 2. **기본 구조 생성**: 클래스, 인터페이스, 함수 골격
 3. **초기 테스트**: 생성된 코드 컴파일 및 기본 동작 확인
 
 ### 오후 (2시간): 세부 구현 및 통합
-1. **VSCode Copilot 활용**: 세부 로직 완성
+1. **GitHub Copilot 인라인 편집**: 세부 로직 완성
 2. **시스템 통합**: 패키지 간 연동 및 상태 동기화
 3. **UI 연결**: React 컴포넌트와 게임 로직 연결
 
@@ -172,17 +203,18 @@ simulation-engine과 연동하는 상태 관리 훅 구현."
 ## 비용 최적화 전략
 
 ### 월간 예상 비용
-- **Cursor Pro**: $20
-- **GitHub Copilot**: $10
-- **Claude API**: $30-50 (프로젝트 규모에 따라)
+- **GitHub Copilot Pro**: $20
+- **VSCode 확장**: 무료
+- **Claude API (선택사항)**: $20-30 (Cursor 사용 시)
 - **AI 그래픽 도구**: $30 (Midjourney 등)
-- **총 예상 비용**: $90-110
+- **총 예상 비용**: $50-80 (GitHub Copilot 중심) / $100-110 (Cursor 병행)
 
 ### 비용 절약 방법
-1. **효율적 프롬프트**: 한 번에 정확한 결과 도출
-2. **로컬 모델 활용**: 간단한 작업은 로컬 AI 모델 사용
-3. **배치 처리**: 유사한 작업을 한 번에 처리
-4. **무료 도구 활용**: 오픈소스 AI 도구 병행 사용
+1. **GitHub Copilot 최대 활용**: 주요 도구로 대부분 작업 처리
+2. **효율적 프롬프트**: 한 번에 정확한 결과 도출
+3. **워크스페이스 에이전트**: 멀티 파일 작업으로 시간 단축
+4. **무료 VSCode 확장**: 추가 개발 도구 활용
+5. **선택적 Cursor 사용**: 특별한 경우에만 활용
 
 ## 품질 보증 전략
 
@@ -208,37 +240,42 @@ simulation-engine과 연동하는 상태 관리 훅 구현."
 #### 1. AI가 잘못된 코드를 생성하는 경우
 ```
 문제: 요구사항을 잘못 이해하거나 구식 API 사용
-해결: 더 구체적인 프롬프트로 재시도
+해결: GitHub Copilot 2025 기능 활용
+- @workspace 태그로 전체 프로젝트 컨텍스트 제공
 - 정확한 버전 명시 (예: "Phaser.js v3.9 API 사용")
-- 예상 결과 명시 (예: "다음과 같은 형태로 동작해야 함")
+- 멀티턴 대화로 점진적 개선
 ```
 
 #### 2. 성능 문제 발생
 ```
 문제: AI 생성 코드의 성능 최적화 부족
-해결: 성능 최적화 전용 프롬프트 사용
-- "메모리 효율적인 코드로 최적화"
-- "React.memo, useMemo 적극 활용"
+해결: GitHub Copilot 성능 최적화 프롬프트 활용
+- "@workspace 메모리 효율적인 코드로 최적화"
+- "React v19 Compiler 기능 활용한 최적화"
+- "Phaser.js 객체 풀링 및 메모리 관리 개선"
 ```
 
 #### 3. 패키지 간 통합 문제
 ```
 문제: 모노레포 구조에서 패키지 간 타입 불일치
-해결: 타입 정의 명시 프롬프트
-- "패키지 간 공유 타입 정의"
-- "명시적 import/export 구문 사용"
+해결: 워크스페이스 에이전트 활용
+- "@workspace 패키지 간 공유 타입 정의 및 동기화"
+- "명시적 import/export 구문 생성"
+- "타입 안전성 검증 및 수정"
 ```
 
 ## 성공 지표
 
 ### 개발 효율성
-- **AI 코드 생성 비율**: 80-95% 목표
+- **AI 코드 생성 비율**: 80-95% 목표 (GitHub Copilot 중심)
 - **개발 속도**: 기존 대비 5-10배 향상
 - **버그 발생률**: 단위 테스트 커버리지 90% 이상
+- **멀티 파일 작업**: 워크스페이스 에이전트로 동시 편집 효율성
 
 ### 코드 품질
 - **TypeScript 엄격 모드**: 에러 0개 유지
 - **성능 기준**: 60fps 유지, 메모리 누수 없음
 - **테스트 커버리지**: 핵심 로직 90% 이상
+- **React v19 호환성**: 최신 기능 활용도 90%
 
-이 가이드를 통해 AI 도구를 효과적으로 활용하여 Cakeaway 프로젝트를 성공적으로 완성할 수 있습니다.
+이 가이드를 통해 GitHub Copilot을 중심으로 한 AI 도구를 효과적으로 활용하여 Cakeaway 프로젝트를 성공적으로 완성할 수 있습니다.

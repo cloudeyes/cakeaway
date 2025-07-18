@@ -15,8 +15,9 @@
 - **현대적인 브라우저**: Chrome, Firefox, Safari 등
 
 #### 권장 개발 도구
-- **Cursor**: AI 기반 코드 에디터 (메인 개발 도구)
-- **VSCode**: Copilot 확장과 함께 사용
+- **GitHub Copilot**: AI 기반 코드 생성 (메인 개발 도구)
+- **VSCode**: GitHub Copilot 확장과 함께 사용
+- **Cursor**: 대체 AI 도구 (선택사항)
 - **TypeScript**: v5 이상 (자동 설치됨)
 
 ### 2. 프로젝트 클론 및 설정
@@ -55,7 +56,9 @@ cakeaway/
 │       ├── tests/             # 테스트 파일
 │       └── package.json
 ├── docs/                      # 프로젝트 문서
-├── .cursor/                   # Cursor AI 설정
+├── .github/                   # GitHub 설정 및 Copilot 지침
+│   └── copilot-instructions.md
+├── .cursor/                   # Cursor AI 설정 (선택사항)
 └── pnpm-workspace.yaml        # pnpm 워크스페이스 설정
 ```
 
@@ -67,7 +70,24 @@ Vibe Coding은 자연어 프롬프트를 통해 AI가 코드의 대부분을 생
 
 ### 주요 AI 도구 설정
 
-#### 1. Cursor 설정 (메인 도구)
+#### 1. GitHub Copilot 설정 (메인 도구)
+
+```bash
+# VSCode에서 GitHub Copilot 확장 설치
+code --install-extension GitHub.copilot
+code --install-extension GitHub.copilot-chat
+```
+
+**GitHub Copilot 설정 단계:**
+1. VSCode에서 GitHub 계정 연결
+2. GitHub Copilot Pro 구독 활성화
+3. 프로젝트 루트에서 `.github/copilot-instructions.md` 파일 확인
+4. 키바인딩 설정:
+   - `Cmd + I`: 인라인 채팅 및 코드 생성
+   - `Cmd + Shift + I`: 사이드바 채팅 패널
+   - `Tab`: 제안 수락
+
+#### 2. Cursor 설정 (대체 도구, 선택사항)
 
 ```bash
 # Cursor 설치 (macOS)
@@ -85,22 +105,16 @@ brew install --cask cursor
    - `Cmd + L`: 채팅 모드
    - `Cmd + I`: 인라인 편집
 
-#### 2. VSCode Copilot 설정 (보조 도구)
-
-```bash
-# VSCode에서 GitHub Copilot 확장 설치
-code --install-extension GitHub.copilot
-```
-
 ### 효과적인 프롬프트 작성법
 
-#### 좋은 프롬프트 예시
+#### 좋은 프롬프트 예시 (GitHub Copilot 2025)
 ```
-"Phaser.js v3.9를 사용하여 아이소메트릭 타일맵을 렌더링하는 코드를 생성하세요.
+"@workspace Phaser.js v3.9를 사용하여 아이소메트릭 타일맵을 렌더링하는 코드를 생성하세요.
 - TypeScript 엄격 모드를 준수하고
 - 2D 그리드 좌표를 아이소메트릭 좌표로 변환하는 함수 포함
 - 타일 깊이 정렬 구현
-- 에러 처리 및 디버그 로그 추가"
+- 에러 처리 및 디버그 로그 추가
+- React v19 상태 관리와 연동"
 ```
 
 #### 피해야 할 프롬프트
@@ -118,12 +132,12 @@ code --install-extension GitHub.copilot
    - 관련 파일 및 시스템 파악
 
 2. **AI 코드 생성** (1시간)
-   - Cursor Agent 모드로 기본 구조 생성
+   - GitHub Copilot 워크스페이스 에이전트로 기본 구조 생성
    - 구체적인 프롬프트로 세부 구현
 
 3. **테스트 및 디버깅** (1시간)
    - 생성된 코드 실행 테스트
-   - 버그 발견 시 AI에게 로그 공유하여 수정
+   - 버그 발견 시 GitHub Copilot에게 로그 공유하여 수정
 
 4. **통합 및 최적화** (30분)
    - 기존 코드와 통합

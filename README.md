@@ -3,7 +3,7 @@
 > 🎮 **AI 기반 케이크 공장 시뮬레이션 게임**
 > 최첨단 웹 기술로 구축되고 Vibe Coding 방법론으로 개발됨
 
-Cakeaway는 롤러코스터 타이쿤의 전략적 깊이와 현대 웹 기술을 결합한 혁신적인 **케이크 공장 건설 시뮬레이션 게임**입니다. 플레이어는 아이소메트릭 화면에서 복잡한 생산 라인을 설계하고 최적화하며, 레시피를 관리하고, EIN/ECN 프로세스를 구현하며, 동적인 시장 조건에 적응합니다.y
+Cakeaway는 롤러코스터 타이쿤의 전략적 깊이와 현대 웹 기술을 결합한 혁신적인 **케이크 공장 건설 시뮬레이션 게임**입니다. 플레이어는 아이소메트릭 화면에서 복잡한 생산 라인을 설계하고 최적화하며, 레시피를 관리하고, EIN/ECN 프로세스를 구현하며, 동적인 시장 조건에 적응합니다.
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-v5-blue.svg)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-v19-61dafb.svg)](https://reactjs.org/)
@@ -43,7 +43,7 @@ Cakeaway는 롤러코스터 타이쿤의 전략적 깊이와 현대 웹 기술�
 
 ```bash
 # 저장소 클론
-git clone https://github.com/your-org/cakeaway.git
+git clone https://github.com/cloudeyes/cakeaway.git
 cd cakeaway
 
 # 의존성 설치

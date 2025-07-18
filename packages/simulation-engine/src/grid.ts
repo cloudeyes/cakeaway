@@ -17,13 +17,15 @@ export interface ScreenPosition {
 /**
  * 타일 타입 열거형
  */
-export enum TileType {
-  EMPTY = 'empty',
-  FLOOR = 'floor',
-  WALL = 'wall',
-  CONVEYOR = 'conveyor',
-  EQUIPMENT = 'equipment'
-}
+export const TileType = {
+  EMPTY: 'empty',
+  FLOOR: 'floor',
+  WALL: 'wall',
+  CONVEYOR: 'conveyor',
+  EQUIPMENT: 'equipment'
+} as const;
+
+export type TileType = typeof TileType[keyof typeof TileType];
 
 /**
  * 게임 오브젝트 기본 인터페이스
@@ -338,7 +340,7 @@ export class BaseGameObject implements GameObject {
   /**
    * 게임 오브젝트 업데이트 (오버라이드 가능)
    */
-  public update(deltaTime: number): void {
+  public update(_deltaTime: number): void {
     // 기본 구현 - 하위 클래스에서 오버라이드
     this.updated = Date.now();
   }

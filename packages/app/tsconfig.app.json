@@ -21,7 +21,14 @@
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+
+    /* Path mapping for TypeScript resolution */
+    "baseUrl": ".",
+    "paths": {
+      "@cakeaway/simulation-engine": ["../simulation-engine/src/index.ts"],
+      "@cakeaway/simulation-engine/*": ["../simulation-engine/src/*"]
+    }
   },
   "include": ["src"]
 }

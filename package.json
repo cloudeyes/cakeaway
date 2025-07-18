@@ -15,11 +15,15 @@
   ],
   "scripts": {
     "dev": "pnpm --filter @cakeaway/app dev",
-    "build": "pnpm --filter @cakeaway/simulation-engine build && pnpm --filter @cakeaway/app build",
+    "build": "tsc --build",
+    "build:clean": "tsc --build --clean",
+    "build:force": "tsc --build --force",
+    "build:watch": "tsc --build --watch",
+    "build:packages": "pnpm --filter @cakeaway/simulation-engine build && pnpm --filter @cakeaway/app build",
     "test": "pnpm --recursive test",
     "clean": "pnpm --recursive clean",
     "lint": "pnpm --recursive lint",
-    "type-check": "pnpm --recursive type-check"
+    "type-check": "tsc --build --noEmit"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",

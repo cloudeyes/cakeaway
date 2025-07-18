@@ -208,6 +208,122 @@
 >   - **pnpm**: v10 최신 버전 사용
 >   - **Phaser.js**: v3.9 버전 사용
 
-> schedule.md 의 Day 1 작업을 시작해주세요. 모노레포의 패키지는 `pnpm create vite --template=react-ts` 명령을 사용해주세요.
+> schedule.md 의 Day 1 작업을 시작해주세요. 모노레포 내 React 패키지 생성은 `pnpm create vite --template=react-ts` 명령을 사용해주세요.
 >
 > (Agent: Claude Sonnet 4, Context: schedule.md)
+
+Day 1 작업을 시작하겠습니다. 먼저 현재 워크스페이스의 구조를 확인하고 pnpm 모노레포 환경을 설정하겠습니다.
+
+- Read cakeaway
+- Created packages
+
+이제 Day 1 작업을 순차적으로 진행하겠습니다:
+
+1. 루트 pnpm 워크스페이스 설정
+
+- Created package.json
+- Created .gitignore
+- Created .npmrc
+
+2. simulation-engine 패키지 생성
+
+- Created simulation-engine
+- Created package.json
+- Created tsconfig.json
+
+tsconfig.json 오류를 수정하겠습니다:
+
+- tsconfig.json+0-1
+- Created src
+
+3. React app 패키지 생성 (Vite + React + TypeScript)
+
+```
+cd /project/cakeaway/packages && pnpm create vite app --template react-ts
+```
+
+좋습니다. 이제 app 패키지를 @cakeaway/app으로 수정하겠습니다:
+
+Read package.json, lines 1 to 30
+
+- package.json+9-4
+- package.json+4-1
+
+4. pnpm 워크스페이스 설정 파일 생성
+
+- Created pnpm-workspace.yaml
+
+5. 기본 Grid, Tile, GameObject 클래스 생성
+
+- Created grid.ts
+
+타입 에러를 수정하겠습니다:
+
+- grid.ts+1-1
+- Created index.ts
+
+우선 기본 파일들만 내보내도록 수정하겠습니다:
+
+- index.ts+0-3
+
+6. GitHub Copilot 지침 파일 생성
+
+Created copilot-instructions.md
+
+Read copilot-instructions.md, lines 1 to 10
+
+기존 파일이 있으므로 그대로 사용하겠습니다.
+
+7. 의존성 설치 및 빌드 테스트
+
+```
+cd /project/cakeaway && pnpm install
+cd /project/cakeaway/packages/simulation-engine && pnpm build
+```
+
+simulation-engine 빌드가 성공했습니다! 이제 app 패키지를 테스트해보겠습니다:
+
+```
+cd /project/cakeaway/packages/app && pnpm dev
+```
+
+훌륭합니다! 개발 서버가 성공적으로 시작되었습니다. 이제 기본 테스트를 위해 브라우저에서 확인해보겠습니다:
+
+---
+
+> pnpm workspace monorepo의 장점을 이용해 @cakeaway/simulation-engine 의 빌드 없이도 tsconfig 참조와 composite 기능을 통해 @cakeaway/app 에서 사용 가능하도록 하여 DX를 향상시키고 싶습니다.
+>
+> (Agent: Claude Sonnet 4, Context: schedule.md)
+
+pnpm workspace 모노레포의 TypeScript project references 기능을 활용하여 개발 경험을 향상시키겠습니다. 이를 통해 빌드 없이도 실시간으로 타입 체크와 인텔리센스를 사용할 수 있습니다.
+
+완벽합니다! 이제 성공적으로 설정되었습니다.
+
+**설정 완료 요약**
+✅ pnpm workspace 모노레포 + TypeScript Project References 설정 완료
+
+**주요 개선사항:**
+1. TypeScript Project References:
+   - 루트 tsconfig.json에서 모든 패키지 참조 관리
+   - composite: true로 증분 컴파일 지원
+   - 타입 체크 시 모든 패키지 동시 검증
+2. Vite Alias 설정:
+   - @cakeaway/simulation-engine을 빌드된 파일이 아닌 TypeScript 소스 직접 참조
+   - 실시간 Hot Module Replacement (HMR) 지원
+   - 빌드 없이 즉시 개발 가능
+3. Path Mapping:
+   - tsconfig.app.json에서 paths 설정으로 TypeScript 인텔리센스 지원
+   - IDE에서 자동 완성, 타입 체크, 리팩토링 완벽 지원
+4. 개발 스크립트 최적화:
+   - tsc --build: 증분 컴파일로 빠른 빌드
+   - tsc --build --watch: 파일 변경 시 자동 재빌드
+   - pnpm type-check: 전체 프로젝트 타입 체크
+
+**개발 경험 향상:**
+
+- 빌드 불필요: simulation-engine 수정 시 즉시 app에 반영
+- 실시간 타입 체크: VSCode에서 실시간 에러 표시
+- 자동 완성: simulation-engine의 모든 API 자동 완성 지원
+- 리팩토링 지원: 패키지 간 리팩토링 안전하게 수행
+
+이제 Day 1 작업이 완료되었습니다! 다음 단계인 Day 2: Phaser.js 통합 및 기본 렌더링으로 진행할 수 있습니다.

@@ -46,20 +46,45 @@ cakeaway/
 │   │   │   ├── hooks/         # React 훅
 │   │   │   └── types/         # TypeScript 타입 정의
 │   │   ├── public/            # 정적 에셋
+│   │   ├── vite.config.ts     # Vite 설정 (alias 포함)
+│   │   ├── tsconfig.json      # TypeScript 설정
 │   │   └── package.json
 │   └── simulation-engine/      # 순수 TypeScript 시뮬레이션 엔진
 │       ├── src/
-│       │   ├── core/          # 기본 게임 객체
-│       │   ├── systems/       # 생산/물류 시스템
-│       │   ├── utils/         # 유틸리티 함수
-│       │   └── types/         # 타입 정의
-│       ├── tests/             # 테스트 파일
+│       │   ├── grid.ts        # 그리드 시스템 (기본 구현 완료)
+│       │   └── index.ts       # 패키지 내보내기
+│       ├── dist/              # 컴파일된 파일
+│       ├── tsconfig.json      # TypeScript 설정 (composite: true)
 │       └── package.json
 ├── docs/                      # 프로젝트 문서
 ├── .github/                   # GitHub 설정 및 Copilot 지침
 │   └── copilot-instructions.md
-├── .cursor/                   # Cursor AI 설정 (선택사항)
-└── pnpm-workspace.yaml        # pnpm 워크스페이스 설정
+├── pnpm-workspace.yaml        # pnpm 워크스페이스 설정
+├── tsconfig.json             # 루트 TypeScript 설정 (Project References)
+└── package.json              # 루트 패키지 설정
+```
+
+### 4. 개발 명령어
+
+```bash
+# 개발 서버 시작 (app 패키지)
+pnpm dev
+
+# TypeScript 빌드 (증분 컴파일)
+pnpm build
+
+# 타입 체크 (전체 프로젝트)
+pnpm type-check
+
+# 와치 모드로 빌드
+pnpm build:watch
+
+# 빌드 정리
+pnpm clean
+
+# 특정 패키지 명령어
+pnpm --filter @cakeaway/app dev
+pnpm --filter @cakeaway/simulation-engine build
 ```
 
 ## Vibe Coding 워크플로우

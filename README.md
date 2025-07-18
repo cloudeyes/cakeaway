@@ -53,21 +53,29 @@ pnpm install
 pnpm dev
 ```
 
-### 첫 실행
+### 개발 명령어
 
 ```bash
 # 모든 패키지를 개발 모드로 실행
 pnpm dev
 
-# 특정 패키지 실행
-pnpm --filter @cakeaway/app dev
-pnpm --filter @cakeaway/simulation-engine dev
+# TypeScript 빌드 (증분 컴파일)
+pnpm build
+
+# 타입 체크 (전체 프로젝트)
+pnpm type-check
+
+# 와치 모드로 빌드
+pnpm build:watch
 
 # 테스트 실행
 pnpm test
 
-# 프로덕션 빌드
-pnpm build
+# 린트 실행
+pnpm lint
+
+# 빌드 정리
+pnpm clean
 ```
 
 ## 🏗️ 아키텍처

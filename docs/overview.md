@@ -38,19 +38,29 @@
 │   │   │   ├── components/  # React 컴포넌트
 │   │   │   ├── phaser/      # Phaser.js 게임 씬
 │   │   │   └── hooks/       # React 상태 관리
+│   │   ├── vite.config.ts   # Vite 설정 (alias 포함)
+│   │   ├── tsconfig.json    # TypeScript 설정
 │   │   └── package.json
 │   └── simulation-engine/   # 순수 TypeScript 시뮬레이션 코어
 │       ├── src/
-│       │   ├── core/        # 기본 게임 객체
-│       │   ├── systems/     # 생산/물류 시스템
-│       │   └── utils/       # 유틸리티 함수
+│       │   ├── grid.ts      # 그리드 시스템 (기본 구현 완료)
+│       │   └── index.ts     # 패키지 내보내기
+│       ├── dist/            # 컴파일된 파일
+│       ├── tsconfig.json    # TypeScript 설정 (composite: true)
 │       └── package.json
+├── pnpm-workspace.yaml      # pnpm 워크스페이스 설정
+├── tsconfig.json            # 루트 TypeScript 설정 (Project References)
 └── package.json             # 루트 워크스페이스
 ```
 
 ### 관심사 분리 원칙
 - **UI Layer (@cakeaway/app)**: React 기반 사용자 인터페이스와 Phaser.js 렌더링
 - **Logic Layer (@cakeaway/simulation-engine)**: 플랫폼 독립적인 게임 로직과 시뮬레이션
+
+### TypeScript Project References
+- **증분 컴파일**: 변경된 파일만 다시 컴파일하여 빌드 시간 단축
+- **타입 안전성**: 패키지 간 타입 체크 및 인텔리센스 지원
+- **개발 경험**: 빌드 없이 실시간 타입 체크 및 자동 완성
 
 ## 개발 방법론: Vibe Coding
 

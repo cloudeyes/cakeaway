@@ -29,7 +29,19 @@
 @cakeaway (pnpm monorepo)
 ├── packages/
 │   ├── app/                 # React v19 UI + Phaser.js v3.9 렌더링
+│   │   ├── src/
+│   │   │   ├── components/  # React 컴포넌트
+│   │   │   ├── phaser/      # Phaser.js 게임 씬
+│   │   │   └── hooks/       # React 상태 관리
+│   │   ├── vite.config.ts   # Vite 설정 (alias 포함)
+│   │   └── tsconfig.json    # TypeScript 설정
 │   └── simulation-engine/   # 순수 TypeScript v5 게임 로직
+│       ├── src/
+│       │   ├── grid.ts      # 그리드 시스템 (기본 구현 완료)
+│       │   └── index.ts     # 패키지 내보내기
+│       └── tsconfig.json    # TypeScript 설정 (composite: true)
+├── pnpm-workspace.yaml      # pnpm 워크스페이스 설정
+├── tsconfig.json            # 루트 TypeScript 설정 (Project References)
 └── docs/                    # 프로젝트 문서
 ```
 
@@ -50,14 +62,21 @@
    - **vitest**: 테스팅 프레임워크
 
 3. **개발 철학**:
+
    - **Vibe Coding**: GitHub Copilot 기반으로 80-95% 코드 생성
    - **반복적 개발**: 매일 플레이 가능한 빌드를 목표로 하는 2주 MVP
    - **AI 우선 그래픽**: 모든 시각적 에셋에 Midjourney, Leonardo AI 사용
    - **워크스페이스 에이전트**: 멀티 파일 편집 및 프로젝트 전체 컨텍스트 활용
 
+4. **TypeScript Project References 활용**:
+   - **증분 컴파일**: `tsc --build`로 변경된 파일만 컴파일
+   - **타입 안전성**: 패키지 간 타입 체크 및 인텔리센스 지원
+   - **개발 경험**: 빌드 없이 실시간 타입 체크 및 자동 완성
+   - **Vite Alias**: simulation-engine을 TypeScript 소스로 직접 참조
+
 ### 핵심 게임 시스템
 
-1. **그리드 시스템 (Grid System)**: 아이소메트릭 타일 기반 공장 레이아웃
+1. **그리드 시스템 (Grid System)**: 아이소메트릭 타일 기반 공장 레이아웃 (기본 구현 완료)
 2. **생산 시스템 (Production System)**: 레시피 기반 케이크 제조
 3. **물류 시스템 (Logistics System)**: 컨베이어 벨트 및 아이템 이동
 4. **EIN/ECN 프로세스**: 엔지니어링 변경 관리 시뮬레이션
@@ -71,6 +90,13 @@
 2. **로깅**: 디버깅을 위한 적절한 콘솔 로그 포함
 3. **타입 안전성**: 모든 함수 매개변수와 반환값에 명시적 타입 지정
 4. **성능 최적화**: React v19 Compiler 활용, React.memo, useMemo, 객체 풀링 적용
+
+### pnpm 워크스페이스 명령어
+
+1. **개발 서버**: `pnpm dev` (app 패키지 실행)
+2. **빌드**: `pnpm build` (증분 컴파일)
+3. **타입 체크**: `pnpm type-check` (전체 프로젝트)
+4. **와치 모드**: `pnpm build:watch` (파일 변경 감지)
 
 ### GitHub Copilot 2025 활용 지침
 

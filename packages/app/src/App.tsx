@@ -4,6 +4,7 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import { Grid, TileType } from '@cakeaway/simulation-engine'
 import type { GridPosition } from '@cakeaway/simulation-engine'
+import GameCanvas from './components/GameCanvas'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -43,6 +44,12 @@ function App() {
         </a>
       </div>
       <h1>Cakeaway - 케이크 공장 시뮬레이션</h1>
+
+      {/* Phaser.js 게임 캔버스 */}
+      <div style={{ margin: '20px 0' }}>
+        <GameCanvas width={800} height={600} />
+      </div>
+
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}

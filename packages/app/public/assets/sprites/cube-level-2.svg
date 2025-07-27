@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- 기본 큐브 텍스처 (레벨 2) -->
+
+  <defs>
+    <linearGradient id="baseTopGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#CCCCCC;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#AAAAAA;stop-opacity:1" />
+    </linearGradient>
+
+    <linearGradient id="baseLeftSide2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#999999;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#888888;stop-opacity:1" />
+    </linearGradient>
+
+    <linearGradient id="baseRightSide2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#777777;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#666666;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- 좌측면 -->
+  <polygon points="16,16 32,24 32,56 16,48"
+           fill="url(#baseLeftSide2)"
+           stroke="#666666"
+           stroke-width="1"/>
+
+  <!-- 우측면 -->
+  <polygon points="32,24 48,16 48,48 32,56"
+           fill="url(#baseRightSide2)"
+           stroke="#555555"
+           stroke-width="1"/>
+
+  <!-- 상단면 (다이아몬드) -->
+  <polygon points="32,8 48,16 32,24 16,16"
+           fill="url(#baseTopGradient2)"
+           stroke="#333333"
+           stroke-width="1"/>
+</svg>

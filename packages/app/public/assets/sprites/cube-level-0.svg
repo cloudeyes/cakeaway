@@ -1,0 +1,7 @@
+<svg width="64" height="32" viewBox="0 0 64 32" xmlns="http://www.w3.org/2000/svg">
+  <!-- 레벨 0 바닥 타일 (아이소메트릭 평면) - 외곽선 없음, 꽉 찬 마름모 -->
+  <path d="M 32 0 L 64 16 L 32 32 L 0 16 Z"
+        fill="#666"
+        stroke="#444"
+        opacity="1.0"/>
+</svg>

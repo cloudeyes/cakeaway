@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64" height="48" viewBox="0 0 64 48" xmlns="http://www.w3.org/2000/svg">
+  <!-- 선택된 타일 하이라이트 (레벨 1) -->
+
+  <!-- 상단 다이아몬드만 (투명한 배경) -->
+  <polygon points="32,8 48,16 32,24 16,16"
+           fill="#F1C40F"
+           fill-opacity="0.7"
+           stroke="#FFFFFF"
+           stroke-width="3"/>
+</svg>

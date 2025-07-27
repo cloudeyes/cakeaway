@@ -1,0 +1,25 @@
+<svg width="64" height="32" viewBox="0 0 64 32" xmlns="http://www.w3.org/2000/svg">
+  <!-- 레벨 0 바닥 선택 하이라이트 - 꽉 찬 마름모에 맞춰 조정 -->
+  <defs>
+    <!-- 선택 하이라이트 그라데이션 (골드) -->
+    <linearGradient id="selectedHighlightGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffd700;stop-opacity:0.9" />
+      <stop offset="50%" style="stop-color:#ffed4e;stop-opacity:0.7" />
+      <stop offset="100%" style="stop-color:#f39c12;stop-opacity:0.9" />
+    </linearGradient>
+  </defs>
+
+  <!-- 아이소메트릭 바닥 하이라이트 (꽉 찬 다이아몬드 모양) -->
+  <path d="M 32 0 L 64 16 L 32 32 L 0 16 Z"
+        fill="none"
+        stroke="url(#selectedHighlightGradient)"
+        stroke-width="3"
+        opacity="0.8"/>
+
+  <!-- 내부 하이라이트 효과 -->
+  <path d="M 32 4 L 58 16 L 32 28 L 6 16 Z"
+        fill="none"
+        stroke="#ffd700"
+        stroke-width="1.5"
+        opacity="0.5"/>
+</svg>

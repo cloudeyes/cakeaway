@@ -15,7 +15,6 @@ interface RenderQueueItem {
     color?: number
     alpha?: number
     object?: unknown
-    isFloorTile?: boolean // 바닥 타일 여부 표시
   }
 }
 
@@ -36,14 +35,10 @@ export class MainScene extends Phaser.Scene {
   private onTileSelectedCallback?: (tile: { x: number; y: number; height: number } | null) => void
   private initialMapPath: string = '/assets/maps/default-factory.json'
   private showGrid: boolean = false
-  private showHitTestDebug: boolean = false
 
   // 스프라이트 관리를 위한 그룹
   private cubeSprites: Phaser.GameObjects.Group | null = null
   private highlightSprites: Phaser.GameObjects.Group | null = null
-
-  // 히트 테스트 디버깅을 위한 그래픽스
-  private hitTestDebugGraphics: Phaser.GameObjects.Graphics | null = null
 
   // 카메라 드래그 관련 변수들
   private isDragging: boolean = false
@@ -78,22 +73,6 @@ export class MainScene extends Phaser.Scene {
     // 설정 변경 시 그리드 다시 렌더링
     if (this.grid && this.gridGraphics) {
       this.renderGrid()
-    }
-  }
-
-  /**
-   * 히트 테스트 디버깅 표시 설정
-   */
-  setShowHitTestDebug(enabled: boolean): void {
-    this.showHitTestDebug = enabled
-    // 설정 변경 시 디버깅 그래픽스 업데이트
-    if (this.hitTestDebugGraphics) {
-      if (enabled) {
-        this.hitTestDebugGraphics.setVisible(true)
-      } else {
-        this.hitTestDebugGraphics.clear()
-        this.hitTestDebugGraphics.setVisible(false)
-      }
     }
   }
 
@@ -190,10 +169,6 @@ export class MainScene extends Phaser.Scene {
       // 하이라이트 스프라이트 관리를 위한 그룹 생성
       this.highlightSprites = this.add.group()
 
-      // 히트 테스트 디버깅용 그래픽스 객체 생성
-      this.hitTestDebugGraphics = this.add.graphics()
-      this.hitTestDebugGraphics.setVisible(false) // 기본적으로 비활성화
-
       // 외부 SVG 에셋 로딩 확인 (런타임 텍스처 생성 로직 제거)
       this.validateLoadedAssets()
 
@@ -283,22 +258,6 @@ export class MainScene extends Phaser.Scene {
           // GameMap에서 높이 정보 가져오기 (0-3 레벨)
           const height = this.gameMap.getTileHeight(x, y)
 
-          // 높이 1 이상인 경우, 먼저 바닥 타일(level-0)을 렌더링 큐에 추가
-          if (height > 0) {
-            this.renderQueue.push({
-              x,
-              y,
-              depth: depth - 0.1, // 바닥 타일을 큐브보다 먼저 렌더링
-              height: 0, // 바닥 타일은 높이 0
-              type: 'tile',
-              data: {
-                color: this.gameMap.getFloorColor(),
-                alpha: 0.9,
-                isFloorTile: true // 바닥 타일임을 표시
-              }
-            })
-          }
-
           // 높이별 색상 설정
           let tileColor: number
           if (this.heightVisualization) {
@@ -310,7 +269,6 @@ export class MainScene extends Phaser.Scene {
               : 0x34495e
           }
 
-          // 메인 타일을 렌더링 큐에 추가
           this.renderQueue.push({
             x,
             y,
@@ -672,8 +630,8 @@ export class MainScene extends Phaser.Scene {
   }
 
   /**
-   * 3D 아이소메트릭 히트 테스트 - 간소화된 버전
-   * Phaser의 기본 기능을 활용하여 성능 최적화
+   * 3D 아이소메트릭 히트 테스트 - 마우스 좌표에서 실제 큐브와 충돌하는 타일 찾기
+   * 카메라 스크롤 위치를 고려하여 정확한 월드 좌표 계산
    */
   private performIsometricHitTest(mouseX: number, mouseY: number): { gridX: number; gridY: number; tileHeight: number } | null {
     if (!this.grid || !this.gameMap) return null
@@ -684,36 +642,30 @@ export class MainScene extends Phaser.Scene {
 
     const offsetX = 400
     const offsetY = 150
+    const tileWidth = 64
+    const tileHeight = 32
 
-    // 1단계: 대략적인 그리드 좌표 계산 (빠른 필터링)
-    const approximateGridPos = this.screenToGrid(worldMouseX - offsetX, worldMouseY - offsetY)
-
-    // 2단계: 주변 3x3 영역만 정밀 검사 (성능 최적화)
-    const candidateTiles = []
-    for (let dx = -1; dx <= 1; dx++) {
-      for (let dy = -1; dy <= 1; dy++) {
-        const x = approximateGridPos.x + dx
-        const y = approximateGridPos.y + dy
-
-        if (x >= 0 && x < this.grid.width && y >= 0 && y < this.grid.height) {
-          const depth = this.calculateDepth(x, y)
-          const height = this.gameMap.getTileHeight(x, y)
-          candidateTiles.push({ x, y, depth, height })
-        }
+    // 깊이 순으로 정렬된 타일들을 앞에서부터 검사 (front-to-back)
+    const sortedTiles = []
+    for (let x = 0; x < this.grid.width; x++) {
+      for (let y = 0; y < this.grid.height; y++) {
+        const depth = this.calculateDepth(x, y)
+        const height = this.gameMap.getTileHeight(x, y)
+        sortedTiles.push({ x, y, depth, height })
       }
     }
 
-    // 3단계: 깊이 순으로 정렬하여 앞쪽부터 검사
-    candidateTiles.sort((a, b) => b.depth - a.depth)
+    // 깊이가 큰 것부터 검사 (화면 앞쪽부터) - 올바른 정렬
+    sortedTiles.sort((a, b) => b.depth - a.depth)
 
-    // 4단계: Phaser 기본 기능 활용한 간단한 히트 테스트
-    for (const tile of candidateTiles) {
+    for (const tile of sortedTiles) {
       const screenPos = this.grid.gridToScreen({ x: tile.x, y: tile.y })
       const centerX = offsetX + screenPos.x
       const centerY = offsetY + screenPos.y
+      const cubeHeight = tile.height * 16
 
-      // 간소화된 히트 테스트: 다이아몬드 + 높이 보정
-      if (this.isPointInTileArea(worldMouseX, worldMouseY, centerX, centerY, tile.height)) {
+      // 3D 큐브의 각 면에 대해 히트 테스트 (카메라 스크롤을 고려한 월드 좌표 사용)
+      if (this.isPointInIsometricCube(worldMouseX, worldMouseY, centerX, centerY, tileWidth, tileHeight, cubeHeight)) {
         return { gridX: tile.x, gridY: tile.y, tileHeight: tile.height }
       }
     }
@@ -722,36 +674,30 @@ export class MainScene extends Phaser.Scene {
   }
 
   /**
-   * 간소화된 타일 영역 체크 - Phaser 기하학 함수 활용
+   * 점이 아이소메트릭 큐브 내부에 있는지 확인
    */
-  private isPointInTileArea(
+  private isPointInIsometricCube(
     pointX: number,
     pointY: number,
     centerX: number,
     centerY: number,
-    height: number
+    tileWidth: number,
+    tileHeight: number,
+    cubeHeight: number
   ): boolean {
-    const tileWidth = 64
-    const tileHeight = 32
-    const cubeHeight = height * 16
-
-    // Level 0: 다이아몬드만 체크
-    if (height === 0) {
-      return this.isPointInDiamond(pointX, pointY, centerX, centerY, tileWidth, tileHeight)
+    // 1. 윗면 (마름모) 체크
+    if (this.isPointInDiamond(pointX, pointY, centerX, centerY - cubeHeight, tileWidth, tileHeight)) {
+      return true
     }
 
-    // Level 1+: 확장된 영역 체크 (사각형 근사)
-    const topY = centerY - cubeHeight - tileHeight / 2
-    const bottomY = centerY + tileHeight / 2
-    const leftX = centerX - tileWidth / 2
+    // 2. 왼쪽 면 (평행사변형) 체크
+    if (this.isPointInLeftFace(pointX, pointY, centerX, centerY, tileWidth, tileHeight, cubeHeight)) {
+      return true
+    }
 
-    // Phaser의 Rectangle.contains 사용
-    const boundingRect = new Phaser.Geom.Rectangle(leftX, topY, tileWidth, bottomY - topY)
-
-    if (Phaser.Geom.Rectangle.Contains(boundingRect, pointX, pointY)) {
-      // 사각형 내부에 있으면 다이아몬드 체크로 정밀도 향상
-      return this.isPointInDiamond(pointX, pointY, centerX, centerY - cubeHeight, tileWidth, tileHeight) ||
-             this.isPointInDiamond(pointX, pointY, centerX, centerY, tileWidth, tileHeight)
+    // 3. 오른쪽 면 (평행사변형) 체크
+    if (this.isPointInRightFace(pointX, pointY, centerX, centerY, tileWidth, tileHeight, cubeHeight)) {
+      return true
     }
 
     return false
@@ -766,6 +712,69 @@ export class MainScene extends Phaser.Scene {
 
     // 마름모의 경계 조건: |x|/halfWidth + |y|/halfHeight <= 1
     return (dx / (width / 2)) + (dy / (height / 2)) <= 1.0
+  }
+
+  /**
+   * 점이 왼쪽 면에 있는지 확인
+   */
+  private isPointInLeftFace(
+    pointX: number,
+    pointY: number,
+    centerX: number,
+    centerY: number,
+    tileWidth: number,
+    tileHeight: number,
+    cubeHeight: number
+  ): boolean {
+    // 왼쪽 면의 네 꼭짓점
+    const topLeft = { x: centerX - tileWidth / 2, y: centerY - cubeHeight }
+    const topRight = { x: centerX, y: centerY + tileHeight / 2 - cubeHeight }
+    const bottomRight = { x: centerX, y: centerY + tileHeight / 2 }
+    const bottomLeft = { x: centerX - tileWidth / 2, y: centerY }
+
+    return this.isPointInQuadrilateral(pointX, pointY, [topLeft, topRight, bottomRight, bottomLeft])
+  }
+
+  /**
+   * 점이 오른쪽 면에 있는지 확인
+   */
+  private isPointInRightFace(
+    pointX: number,
+    pointY: number,
+    centerX: number,
+    centerY: number,
+    tileWidth: number,
+    tileHeight: number,
+    cubeHeight: number
+  ): boolean {
+    // 오른쪽 면의 네 꼭짓점
+    const topLeft = { x: centerX, y: centerY + tileHeight / 2 - cubeHeight }
+    const topRight = { x: centerX + tileWidth / 2, y: centerY - cubeHeight }
+    const bottomRight = { x: centerX + tileWidth / 2, y: centerY }
+    const bottomLeft = { x: centerX, y: centerY + tileHeight / 2 }
+
+    return this.isPointInQuadrilateral(pointX, pointY, [topLeft, topRight, bottomRight, bottomLeft])
+  }
+
+  /**
+   * 점이 사각형 내부에 있는지 확인 (광선 투사 알고리즘)
+   */
+  private isPointInQuadrilateral(pointX: number, pointY: number, vertices: { x: number; y: number }[]): boolean {
+    let inside = false
+    const n = vertices.length
+
+    for (let i = 0, j = n - 1; i < n; j = i++) {
+      const xi = vertices[i].x
+      const yi = vertices[i].y
+      const xj = vertices[j].x
+      const yj = vertices[j].y
+
+      if (((yi > pointY) !== (yj > pointY)) && (pointX < (xj - xi) * (pointY - yi) / (yj - yi) + xi)) {
+        inside = !inside
+      }
+    }
+
+    return inside
   }
 
   private handlePointerDown(pointer: Phaser.Input.Pointer): void {
@@ -829,11 +838,6 @@ export class MainScene extends Phaser.Scene {
 
       // 드래그 중이 아닌 경우에만 호버 처리
       if (!this.isDragging) {
-        // 히트 테스트 디버깅이 활성화된 경우 시각화
-        if (this.showHitTestDebug) {
-          this.visualizeHitTestArea(pointer.x, pointer.y)
-        }
-
         // 3D 아이소메트릭 히트 테스트로 호버된 타일 찾기
         const hitResult = this.performIsometricHitTest(pointer.x, pointer.y)
 
@@ -1021,125 +1025,5 @@ export class MainScene extends Phaser.Scene {
       this.hoverGraphics.destroy()
       this.hoverGraphics = null
     }
-  }
-
-  /**
-   * 히트 테스트 영역 시각화 (디버깅용)
-   */
-  private visualizeHitTestArea(mouseX: number, mouseY: number): void {
-    if (!this.grid || !this.gameMap || !this.hitTestDebugGraphics) return
-
-    // 이전 디버깅 그래픽스 클리어
-    this.hitTestDebugGraphics.clear()
-
-    // 카메라 스크롤 위치를 고려한 월드 좌표 계산
-    const worldMouseX = mouseX + this.cameras.main.scrollX
-    const worldMouseY = mouseY + this.cameras.main.scrollY
-
-    const offsetX = 400
-    const offsetY = 150
-
-    // 대략적인 그리드 좌표 계산
-    const approximateGridPos = this.screenToGrid(worldMouseX - offsetX, worldMouseY - offsetY)
-
-    // 검사 대상 타일들 (현재 타일 + 4방향 인접 타일)
-    const candidateTiles = []
-
-    // 중앙 타일
-    if (approximateGridPos.x >= 0 && approximateGridPos.x < this.grid.width &&
-        approximateGridPos.y >= 0 && approximateGridPos.y < this.grid.height) {
-      candidateTiles.push({ x: approximateGridPos.x, y: approximateGridPos.y })
-    }
-
-    // 4방향 인접 타일
-    const adjacentOffsets = [
-      { dx: -1, dy: 0 }, { dx: 1, dy: 0 }, { dx: 0, dy: -1 }, { dx: 0, dy: 1 }
-    ]
-
-    for (const offset of adjacentOffsets) {
-      const x = approximateGridPos.x + offset.dx
-      const y = approximateGridPos.y + offset.dy
-      if (x >= 0 && x < this.grid.width && y >= 0 && y < this.grid.height) {
-        candidateTiles.push({ x, y })
-      }
-    }
-
-    // 각 후보 타일에 대해 히트 테스트 영역 시각화
-    for (const tile of candidateTiles) {
-      const screenPos = this.grid.gridToScreen({ x: tile.x, y: tile.y })
-      const centerX = offsetX + screenPos.x
-      const centerY = offsetY + screenPos.y
-      const height = this.gameMap.getTileHeight(tile.x, tile.y)
-
-      // 히트 테스트 성공 여부 확인
-      const isHit = this.isPointInTileArea(worldMouseX, worldMouseY, centerX, centerY, height)
-
-      if (isHit) {
-        // 히트 성공 시 밝은 녹색으로 강조
-        this.drawHitTestDebugArea(centerX, centerY, height, 0x00ff00, 0.6)
-      } else {
-        // 히트 실패 시 연한 빨간색으로 표시
-        this.drawHitTestDebugArea(centerX, centerY, height, 0xff0000, 0.3)
-      }
-    }
-
-    // 마우스 포인터 위치 표시
-    this.hitTestDebugGraphics.fillStyle(0xffffff, 0.8)
-    this.hitTestDebugGraphics.fillCircle(worldMouseX, worldMouseY, 3)
-  }
-
-  /**
-   * 히트 테스트 디버깅 영역 그리기
-   */
-  private drawHitTestDebugArea(centerX: number, centerY: number, height: number, color: number, alpha: number): void {
-    if (!this.hitTestDebugGraphics) return
-
-    const tileWidth = 64
-    const tileHeight = 32
-    const cubeHeight = height * 16
-
-    if (height === 0) {
-      // Level 0: 다이아몬드만 그리기
-      this.hitTestDebugGraphics.fillStyle(color, alpha)
-      this.hitTestDebugGraphics.beginPath()
-      this.hitTestDebugGraphics.moveTo(centerX, centerY - tileHeight / 2)
-      this.hitTestDebugGraphics.lineTo(centerX + tileWidth / 2, centerY)
-      this.hitTestDebugGraphics.lineTo(centerX, centerY + tileHeight / 2)
-      this.hitTestDebugGraphics.lineTo(centerX - tileWidth / 2, centerY)
-      this.hitTestDebugGraphics.closePath()
-      this.hitTestDebugGraphics.fillPath()
-    } else {
-      // Level 1+: 사각형 영역 + 상단/하단 다이아몬드
-      const topY = centerY - cubeHeight - tileHeight / 2
-      const bottomY = centerY + tileHeight / 2
-      const leftX = centerX - tileWidth / 2
-
-      // 사각형 영역
-      this.hitTestDebugGraphics.fillStyle(color, alpha * 0.5)
-      this.hitTestDebugGraphics.fillRect(leftX, topY, tileWidth, bottomY - topY)
-
-      // 상단 다이아몬드
-      this.hitTestDebugGraphics.fillStyle(color, alpha)
-      this.hitTestDebugGraphics.beginPath()
-      this.hitTestDebugGraphics.moveTo(centerX, centerY - cubeHeight - tileHeight / 2)
-      this.hitTestDebugGraphics.lineTo(centerX + tileWidth / 2, centerY - cubeHeight)
-      this.hitTestDebugGraphics.lineTo(centerX, centerY - cubeHeight + tileHeight / 2)
-      this.hitTestDebugGraphics.lineTo(centerX - tileWidth / 2, centerY - cubeHeight)
-      this.hitTestDebugGraphics.closePath()
-      this.hitTestDebugGraphics.fillPath()
-
-      // 하단 다이아몬드
-      this.hitTestDebugGraphics.beginPath()
-      this.hitTestDebugGraphics.moveTo(centerX, centerY - tileHeight / 2)
-      this.hitTestDebugGraphics.lineTo(centerX + tileWidth / 2, centerY)
-      this.hitTestDebugGraphics.lineTo(centerX, centerY + tileHeight / 2)
-      this.hitTestDebugGraphics.lineTo(centerX - tileWidth / 2, centerY)
-      this.hitTestDebugGraphics.closePath()
-      this.hitTestDebugGraphics.fillPath()
-    }
-
-    // 테두리 그리기
-    this.hitTestDebugGraphics.lineStyle(2, color, alpha + 0.2)
-    this.hitTestDebugGraphics.strokePath()
   }
 }

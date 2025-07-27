@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64" height="80" viewBox="0 0 64 80" xmlns="http://www.w3.org/2000/svg">
+  <!-- 황금 큐브 텍스처 (레벨 3) -->
+
+  <!-- 상단면 (다이아몬드) - 황금 그라데이션 -->
+  <defs>
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFED4E;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#B8860B;stop-opacity:1" />
+    </linearGradient>
+
+    <linearGradient id="goldLeftSide" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#DAA520;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#B8860B;stop-opacity:1" />
+    </linearGradient>
+
+    <linearGradient id="goldRightSide" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#B8860B;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8B6914;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- 좌측면 -->
+  <polygon points="16,16 32,24 32,72 16,64"
+           fill="url(#goldLeftSide)"
+           stroke="#B8860B"
+           stroke-width="1"/>
+
+  <!-- 우측면 -->
+  <polygon points="32,24 48,16 48,64 32,72"
+           fill="url(#goldRightSide)"
+           stroke="#8B6914"
+           stroke-width="1"/>
+
+  <!-- 상단면 (다이아몬드) -->
+  <polygon points="32,8 48,16 32,24 16,16"
+           fill="url(#goldGradient)"
+           stroke="#FFA500"
+           stroke-width="2"/>
+
+  <!-- 황금 하이라이트 효과 -->
+  <polygon points="28,12 36,12 40,16 32,16"
+           fill="#FFFACD"
+           opacity="0.6"/>
+
+  <!-- 반짝임 효과 -->
+  <circle cx="26" cy="14" r="1" fill="#FFFFFF" opacity="0.8"/>
+  <circle cx="38" cy="18" r="0.5" fill="#FFFFFF" opacity="0.6"/>
+</svg>

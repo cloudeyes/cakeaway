@@ -5,6 +5,11 @@ import { MainScene } from '../phaser/MainScene'
 interface GameCanvasProps {
   width?: number
   height?: number
+  heightVisualization?: boolean
+  showGrid?: boolean
+  showHitTestDebug?: boolean
+  mapPath?: string
+  onTileSelected?: (tile: { x: number; y: number; height: number } | null) => void
 }
 
 /**
@@ -13,10 +18,16 @@ interface GameCanvasProps {
  */
 export const GameCanvas: React.FC<GameCanvasProps> = ({
   width = 800,
-  height = 600
+  height = 600,
+  heightVisualization = false,
+  showGrid = false,
+  showHitTestDebug = false,
+  mapPath = '/assets/maps/default-factory.json',
+  onTileSelected
 }) => {
   const gameRef = useRef<Phaser.Game | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
+  const mainSceneRef = useRef<MainScene | null>(null)
   const [gameStatus, setGameStatus] = useState<'loading' | 'ready' | 'error'>('loading')
 
   useEffect(() => {
@@ -60,6 +71,25 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
       // 게임 준비 완료 이벤트 리스너
       gameRef.current.events.on('ready', () => {
         console.log('GameCanvas: Phaser game is ready')
+
+        // MainScene 인스턴스 가져오기
+        const mainScene = gameRef.current?.scene.getScene('MainScene') as MainScene
+        if (mainScene) {
+          mainSceneRef.current = mainScene
+          // 초기 맵 경로 설정
+          mainScene.setInitialMapPath(mapPath)
+          // 초기 높이 시각화 설정 적용
+          mainScene.setHeightVisualization(heightVisualization)
+          // 초기 격자 표시 설정 적용
+          mainScene.setShowGrid(showGrid)
+          // 초기 히트 테스트 디버깅 설정 적용
+          mainScene.setShowHitTestDebug(showHitTestDebug)
+          // 타일 선택 콜백 설정
+          if (onTileSelected) {
+            mainScene.setTileSelectedCallback(onTileSelected)
+          }
+        }
+
         setGameStatus('ready')
       })
 
@@ -82,7 +112,41 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
         gameRef.current = null
       }
     }
-  }, [width, height])
+    }, [width, height, heightVisualization, mapPath, onTileSelected, showGrid, showHitTestDebug])  // heightVisualization 변경 감지
+  useEffect(() => {
+    if (mainSceneRef.current) {
+      mainSceneRef.current.setHeightVisualization(heightVisualization)
+    }
+  }, [heightVisualization])
+
+  // showGrid 변경 감지
+  useEffect(() => {
+    if (mainSceneRef.current) {
+      mainSceneRef.current.setShowGrid(showGrid)
+    }
+  }, [showGrid])
+
+  // showHitTestDebug 변경 감지
+  useEffect(() => {
+    if (mainSceneRef.current) {
+      mainSceneRef.current.setShowHitTestDebug(showHitTestDebug)
+    }
+  }, [showHitTestDebug])
+
+  // mapPath 변경 감지
+  useEffect(() => {
+    if (mainSceneRef.current) {
+      console.log(`GameCanvas: Changing map to ${mapPath}`)
+      mainSceneRef.current.changeMap(mapPath)
+    }
+  }, [mapPath])
+
+  // onTileSelected 콜백 설정
+  useEffect(() => {
+    if (mainSceneRef.current && onTileSelected) {
+      mainSceneRef.current.setTileSelectedCallback(onTileSelected)
+    }
+  }, [onTileSelected])
 
   return (
     <div className="flex flex-col items-center">
@@ -90,6 +154,7 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
         ref={containerRef}
         className="relative border-2 border-game-canvas-border-light dark:border-game-canvas-border-dark rounded-md"
         style={{ width, height }}
+        onContextMenu={(e) => e.preventDefault()} // 우클릭 컨텍스트 메뉴 차단
       >
         {gameStatus === 'loading' && (
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-game-text-dark text-lg font-bold">
@@ -113,6 +178,12 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
           <span className="text-game-error">❌ 오류</span>
         )}
       </div>
+
+      {gameStatus === 'ready' && (
+        <div className="mt-2 px-3 py-2 bg-game-grid-bg-light dark:bg-game-grid-bg-dark rounded-md text-sm text-game-grid-text-light dark:text-game-grid-text-dark">
+          <strong>렌더링:</strong> <span className="text-game-isometric">🔷 아이소메트릭 그리드 (20 x 15)</span>
+        </div>
+      )}
     </div>
   )
 }

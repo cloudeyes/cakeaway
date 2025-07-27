@@ -1,73 +1,58 @@
-import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import { Grid, TileType } from '@cakeaway/simulation-engine'
-import type { GridPosition } from '@cakeaway/simulation-engine'
+import { Moon, Sun } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import GameCanvas from './components/GameCanvas'
 
 function App() {
-  const [count, setCount] = useState(0)
-  const [grid, setGrid] = useState<Grid | null>(null)
-  const [gridInfo, setGridInfo] = useState<string>('')
+  const [isDark, setIsDark] = useState(false)
 
+  // 시스템 테마 감지 및 초기 설정
   useEffect(() => {
-    try {
-      // simulation-engine 직접 사용 테스트
-      const newGrid = new Grid(10, 10)
-      const centerPosition: GridPosition = { x: 5, y: 5 }
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+    setIsDark(mediaQuery.matches)
 
-      // 타일 정보 가져오기
-      const centerTile = newGrid.getTile(centerPosition)
-      if (centerTile) {
-        centerTile.type = TileType.EQUIPMENT
-        const screenPos = newGrid.gridToScreen(centerPosition)
-        setGridInfo(`Grid created: ${newGrid.width}x${newGrid.height}, Center tile at screen (${screenPos.x}, ${screenPos.y})`)
-      }
-
-      setGrid(newGrid)
-      console.log('Grid successfully created from simulation-engine:', newGrid)
-    } catch (error) {
-      console.error('Error creating grid:', error)
-      setGridInfo('Error creating grid')
+    const handleChange = (e: MediaQueryListEvent) => {
+      setIsDark(e.matches)
     }
+
+    mediaQuery.addEventListener('change', handleChange)
+    return () => mediaQuery.removeEventListener('change', handleChange)
   }, [])
 
+  // 테마 토글 함수
+  const toggleTheme = () => {
+    setIsDark(!isDark)
+  }
+
+  // HTML 루트 요소에 dark 클래스 적용/제거
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+  }, [isDark])
+
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Cakeaway - 케이크 공장 시뮬레이션</h1>
+    <div className="w-screen h-screen flex flex-col items-center justify-center bg-game-bg-light dark:bg-game-bg-dark relative">
+      {/* 테마 토글 버튼 */}
+      <button
+        onClick={toggleTheme}
+        className="absolute top-4 right-4 p-2 rounded-md bg-game-status-bg-light dark:bg-game-status-bg-dark border border-game-canvas-border-light dark:border-game-canvas-border-dark hover:opacity-80 transition-opacity"
+        aria-label="테마 변경"
+      >
+        {isDark ? (
+          <Sun className="w-5 h-5 text-game-warning" />
+        ) : (
+          <Moon className="w-5 h-5 text-game-status-text-light dark:text-game-status-text-dark" />
+        )}
+      </button>
+
+      <h1 className="text-game-text-light dark:text-game-text-dark mb-5 text-2xl font-semibold font-[system-ui,Arial,sans-serif]">
+        Cakeaway - 케이크 공장 시뮬레이션
+      </h1>
 
       {/* Phaser.js 게임 캔버스 */}
-      <div style={{ margin: '20px 0' }}>
-        <GameCanvas width={800} height={600} />
-      </div>
-
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-        <div style={{ marginTop: '20px', padding: '10px', backgroundColor: '#f0f0f0', borderRadius: '5px' }}>
-          <h3>Simulation Engine Test:</h3>
-          <p>{gridInfo}</p>
-          <p>Grid instance: {grid ? '✅ Created' : '❌ Not created'}</p>
-        </div>
-      </div>
-      <p className="read-the-docs">
-        TypeScript Project References로 빌드 없이 실시간 개발 가능
-      </p>
-    </>
+      <GameCanvas width={800} height={600} />
+    </div>
   )
-}
-
-export default App
+}export default App

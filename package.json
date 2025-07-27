@@ -22,6 +22,7 @@
     "build:packages": "pnpm --filter @cakeaway/simulation-engine build && pnpm --filter @cakeaway/app build",
     "test": "pnpm --recursive test",
     "test:e2e": "pnpm --filter @cakeaway/app exec playwright test",
+    "test:e2e:fast": "pnpm --filter @cakeaway/app exec playwright test --reporter=dot --workers=1",
     "clean": "pnpm --recursive clean",
     "lint": "pnpm --recursive lint",
     "type-check": "tsc --build --noEmit"

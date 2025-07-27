@@ -5,16 +5,42 @@
 
 ## ⚠️ 절대 준수 사항
 
-- **금지**: `logs/` 디렉토리 파일 읽기/참조 절대 금지
-- **TypeScript**: v5 엄격 모드 필수, `any` 타입 사용 금지
+- **컨텍스트 참조 및 업데이트**
+  - 이 문서는 프로젝트의 핵심 컨텍스트를 제공합니다. 필요시 업데이트하여 최신 정보를 반영하세요.
+  - 프로젝트 문서(`docs/`)를 항상 참조하여 상세한 아키텍처, 요구사항, 개발 환경 설정을 확인하세요. 필요시 문서를 업데이트 하세요.
+- **금지**
+  - `logs/` 디렉토리 파일 읽기/참조 절대 금지
+  - 임의로 React 프로젝트 생성 금지: 항상 Vite React TypeScript 템플릿으로 프로젝트 생성 `pnpm create vite@latest --template react-ts <패키지명>`
 - **아키텍처**: 모노레포 구조 준수, 패키지 간 관심사 분리 엄격 준수
 - **개발 방식**: Vibe Coding - GitHub Copilot 기반으로 80-95% 코드 생성
-- **금지**: 임의로 React 프로젝트 생성 금지.
-  - **항상 Vite React TypeScript 템플릿으로 프로젝트 생성**: `pnpm create vite@latest --template react-ts <패키지명>`
 - **도구**: 2025년 7월 기준 최신 도구 사용
+  - **TypeScript**: v5 엄격 모드 필수, `any` 타입 사용 금지
   - **Node.js**: v22 최신 LTS 버전 사용
   - **pnpm**: v10 최신 버전 사용
-  - **Phaser.js**: v3.9 버전 사용
+  - **Vite**: v7 최신 버전 사용
+  - **React**: v19 최신 버전 사용
+  - **Tailwind CSS**: v4 최신 버전 사용
+  - **Phaser.js**: v3.9 버전 사용 (v3.9 공식 문서를 확인)
+- **중요**: 이 프로젝트는 GitHub Copilot이 대부분의 코드를 생성하는 Vibe Coding 방식으로 개발되지만, 항상 아키텍처 원칙과 타입 안전성을 준수해야 합니다.
+
+### GitHub Copilot 2025 활용 지침
+
+1. **워크스페이스 에이전트 활용**: `@workspace` 태그로 프로젝트 전체 컨텍스트 활용
+2. **멀티 파일 편집**: 여러 파일을 동시에 수정하는 복잡한 작업 처리
+3. **구체적 프롬프트**: 작업 패키지, 기술 스택 버전, 에러 처리 요구사항 명시
+4. **완전한 코드**: 부분 코드가 아닌 실행 가능한 완전한 구현 생성
+5. **테스트 고려**: 생성된 코드에 대한 테스트 케이스 포함
+
+### 상세 문서 참조 가이드 (필요시)
+
+- **개발 환경 설정**: `docs/onboarding.md` 참조
+- **전체 아키텍처**: `docs/overview.md` 참조
+- **프로젝트 요구사항**: `docs/requirements.md` 참조
+- **게임 기획 및 시스템**: `docs/game-design.md` 참조
+- **AI 도구 활용법**: `docs/ai-tools-guide.md` 참조
+- **개발 일정**: `docs/schedule.md` 참조
+- **핵심 비즈니스 컨텍스트**: `docs/core-context.md` 참조
+- **빌드/테스트 문제**: `docs/onboarding.md` 참조
 
 ## 핵심 프로젝트 컨텍스트
 
@@ -80,11 +106,12 @@
 1. **그리드 시스템 (Grid System)**: ✅ 아이소메트릭 타일 기반 공장 레이아웃 (기본 구현 완료)
 2. **React-Phaser 통합**: ✅ GameCanvas 컴포넌트로 게임 렌더링 (Day 2 완료)
 3. **마우스 상호작용**: ✅ 그리드 클릭 시 하이라이트 표시 (Day 2 완료)
-4. **e2e 테스트**: ✅ Playwright로 브라우저 환경 검증 (Day 2 완료)
-5. **생산 시스템 (Production System)**: 🚧 레시피 기반 케이크 제조 (Day 6 예정)
-6. **물류 시스템 (Logistics System)**: 🚧 컨베이어 벨트 및 아이템 이동 (Day 7 예정)
-7. **EIN/ECN 프로세스**: 🚧 엔지니어링 변경 관리 시뮬레이션 (향후 구현)
-8. **시장 시스템 (Market System)**: 🚧 실시간 가격 변동 및 수요 (향후 구현)
+4. **e2e 테스트**: ✅ Playwright로 브라우저 환경 검증 + Agent 모드 최적화 완료 (Day 2 완료)
+5. **다크/라이트 테마**: ✅ Tailwind CSS v4 기반 테마 토글 시스템 (Day 3 추가)
+6. **생산 시스템 (Production System)**: 🚧 레시피 기반 케이크 제조 (Day 6 예정)
+7. **물류 시스템 (Logistics System)**: 🚧 컨베이어 벨트 및 아이템 이동 (Day 7 예정)
+8. **EIN/ECN 프로세스**: 🚧 엔지니어링 변경 관리 시뮬레이션 (향후 구현)
+9. **시장 시스템 (Market System)**: 🚧 실시간 가격 변동 및 수요 (향후 구현)
 
 ## 핵심 개발 패턴
 
@@ -101,26 +128,32 @@
 2. **빌드**: `pnpm build` (증분 컴파일)
 3. **타입 체크**: `pnpm type-check` (전체 프로젝트)
 4. **와치 모드**: `pnpm build:watch` (파일 변경 감지)
+5. **e2e 테스트**:
+   - `pnpm test:e2e:fast` - **Agent 모드 권장**: 최적화된 빠른 실행 (타임아웃 15초, 워커 1개)
+   - `pnpm test:e2e` - 일반 실행 (타임아웃 30초, 멀티 워커)
+   - `pnpm test:e2e:headed` - 브라우저 표시 모드 (디버깅용)
 
-### GitHub Copilot 2025 활용 지침
+### 🚨 e2e 테스트 최적화 지침 (Agent 모드 필수)
 
-1. **워크스페이스 에이전트 활용**: `@workspace` 태그로 프로젝트 전체 컨텍스트 활용
-2. **멀티 파일 편집**: 여러 파일을 동시에 수정하는 복잡한 작업 처리
-3. **구체적 프롬프트**: 작업 패키지, 기술 스택 버전, 에러 처리 요구사항 명시
-4. **문서 참조**: Phaser.js v3.9, React v19 공식 문서 참조
-5. **완전한 코드**: 부분 코드가 아닌 실행 가능한 완전한 구현 생성
-6. **테스트 고려**: 생성된 코드에 대한 테스트 케이스 포함
+**Agent 모드에서 e2e 테스트 실행 시 반드시 준수:**
 
-## 문서 참조 가이드
+1. **항상 `pnpm test:e2e:fast` 사용**: Agent 모드에서는 타임아웃 문제로 일반 테스트가 실패할 수 있음
+2. **Playwright 설정 최적화 완료**:
+   - 테스트 타임아웃: 15초
+   - expect 타임아웃: 3초
+   - 워커 수: 1개 (안정성)
+   - 웹서버 타임아웃: 30초
+3. **테스트 구조 최적화**:
+   - 불필요한 `waitForTimeout()` 제거
+   - 구체적인 조건 대기 (`toBeVisible()` with timeout)
+   - 간소화된 DOM 선택자 사용
+4. **실행 환경**:
+   - Headless 모드 기본
+   - 단일 워커로 순차 실행
+   - dot reporter로 간결한 출력
 
-- **개발 환경 설정**: `docs/onboarding.md` 참조
-- **전체 아키텍처**: `docs/overview.md` 참조
-- **프로젝트 요구사항**: `docs/requirements.md` 참조
-- **게임 기획 및 시스템**: `docs/game-design.md` 참조
-- **AI 도구 활용법**: `docs/ai-tools-guide.md` 참조
-- **개발 일정**: `docs/schedule.md` 참조
-- **핵심 비즈니스 컨텍스트**: `docs/core-context.md` 참조
-- **빌드/테스트 문제**: `docs/onboarding.md` 참조
+**문제 발생 시**:
 
-**중요**: 이 프로젝트는 GitHub Copilot이 대부분의 코드를 생성하는 Vibe Coding 방식으로 개발되지만,
-항상 아키텍처 원칙과 타입 안전성을 준수해야 합니다.
+- VSCode 작업: `test:e2e:fast` 사용
+- 터미널: `pnpm test:e2e:fast` 사용
+- 디버깅 필요시에만 `test:e2e:headed` 사용

@@ -33,23 +33,6 @@
       "**/dist": true,
       "**/.git": true,
       "**/logs": true
-    },
-    "github.copilot.enable": {
-      "*": true,
-      "yaml": true,
-      "plaintext": true,
-      "markdown": true,
-      "typescript": true,
-      "javascript": true,
-      "json": true,
-      "jsonc": true
-    },
-    "github.copilot.advanced": {
-      "secret_key": "github-copilot",
-      "length": 500,
-      "temperature": 0.1,
-      "top_p": 1,
-      "stop": ["\n\n", "\n\t\n", "\n    \n"]
     }
   },
   "extensions": {
@@ -71,8 +54,14 @@
       {
         "label": "dev",
         "type": "shell",
-        "command": "pnpm dev",
+        "command": "nvm use && pnpm dev",
         "group": "build",
+        "options": {
+          "shell": {
+            "executable": "/bin/zsh",
+            "args": ["-i", "-c"]
+          }
+        },
         "presentation": {
           "echo": true,
           "reveal": "always",
@@ -84,34 +73,75 @@
       {
         "label": "build",
         "type": "shell",
-        "command": "pnpm build",
+        "command": "nvm use && pnpm build",
         "group": "build",
+        "options": {
+          "shell": {
+            "executable": "/bin/zsh",
+            "args": ["-i", "-c"]
+          }
+        },
         "presentation": {
           "echo": true,
           "reveal": "always",
           "focus": false,
           "panel": "shared"
         },
-        "problemMatcher": ["$tsc"]
+        "problemMatcher": [
+          "$tsc"
+        ]
       },
       {
         "label": "type-check",
         "type": "shell",
-        "command": "pnpm type-check",
+        "command": "nvm use && pnpm type-check",
         "group": "build",
+        "options": {
+          "shell": {
+            "executable": "/bin/zsh",
+            "args": ["-i", "-c"]
+          }
+        },
         "presentation": {
           "echo": true,
           "reveal": "always",
           "focus": false,
           "panel": "shared"
         },
-        "problemMatcher": ["$tsc"]
+        "problemMatcher": [
+          "$tsc"
+        ]
       },
       {
         "label": "test:e2e",
         "type": "shell",
-        "command": "pnpm test:e2e",
+        "command": "nvm use && pnpm test:e2e",
         "group": "test",
+        "options": {
+          "shell": {
+            "executable": "/bin/zsh",
+            "args": ["-i", "-c"]
+          }
+        },
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "shared"
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "test:e2e:fast",
+        "type": "shell",
+        "command": "nvm use && pnpm test:e2e:fast",
+        "group": "test",
+        "options": {
+          "shell": {
+            "executable": "/bin/zsh",
+            "args": ["-i", "-c"]
+          }
+        },
         "presentation": {
           "echo": true,
           "reveal": "always",
@@ -123,8 +153,14 @@
       {
         "label": "test:e2e:headed",
         "type": "shell",
-        "command": "pnpm --filter @cakeaway/app exec playwright test --headed",
+        "command": "nvm use && pnpm --filter @cakeaway/app exec playwright test --headed",
         "group": "test",
+        "options": {
+          "shell": {
+            "executable": "/bin/zsh",
+            "args": ["-i", "-c"]
+          }
+        },
         "presentation": {
           "echo": true,
           "reveal": "always",

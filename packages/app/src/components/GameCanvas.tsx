@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react'
 import Phaser from 'phaser'
+import React, { useEffect, useRef, useState } from 'react'
 import { MainScene } from '../phaser/MainScene'
 
 interface GameCanvasProps {
@@ -85,62 +85,33 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
   }, [width, height])
 
   return (
-    <div className="game-canvas-wrapper">
+    <div className="flex flex-col items-center">
       <div
         ref={containerRef}
-        className="game-canvas-container"
-        style={{
-          width: `${width}px`,
-          height: `${height}px`,
-          border: '2px solid #34495e',
-          borderRadius: '8px',
-          overflow: 'hidden',
-          position: 'relative'
-        }}
+        className="relative border-2 border-game-canvas-border-light dark:border-game-canvas-border-dark rounded-md"
+        style={{ width, height }}
       >
         {gameStatus === 'loading' && (
-          <div
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              color: '#ecf0f1',
-              fontSize: '18px',
-              fontWeight: 'bold'
-            }}
-          >
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-game-text-dark text-lg font-bold">
             게임 로딩 중...
           </div>
         )}
 
         {gameStatus === 'error' && (
-          <div
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              color: '#e74c3c',
-              fontSize: '18px',
-              fontWeight: 'bold'
-            }}
-          >
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-game-error text-lg font-bold">
             게임 로딩 오류
           </div>
         )}
       </div>
 
-      <div
-        style={{
-          marginTop: '10px',
-          padding: '10px',
-          backgroundColor: '#ecf0f1',
-          borderRadius: '5px',
-          fontSize: '14px'
-        }}
-      >
-        <strong>게임 상태:</strong> {gameStatus === 'ready' ? '✅ 준비됨' : gameStatus === 'loading' ? '⏳ 로딩 중' : '❌ 오류'}
+      <div className="mt-2.5 px-3 py-2 bg-game-status-bg-light dark:bg-game-status-bg-dark rounded-md text-sm text-game-status-text-light dark:text-game-status-text-dark">
+        <strong>게임 상태:</strong> {gameStatus === 'ready' ? (
+          <span className="text-game-success">✅ 준비됨</span>
+        ) : gameStatus === 'loading' ? (
+          <span className="text-game-warning">⏳ 로딩 중</span>
+        ) : (
+          <span className="text-game-error">❌ 오류</span>
+        )}
       </div>
     </div>
   )

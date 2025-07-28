@@ -270,8 +270,8 @@ export class Grid {
     const gridY = (screenPos.y / (tileHeight / 2) - screenPos.x / (tileWidth / 2)) / 2;
 
     return {
-      x: Math.floor(gridX),
-      y: Math.floor(gridY)
+      x: Math.round(gridX),
+      y: Math.round(gridY)
     };
   }
 

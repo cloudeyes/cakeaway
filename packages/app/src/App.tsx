@@ -91,7 +91,7 @@ function App() {
           <select
             value={selectedMapId}
             onChange={(e) => handleMapChange(e.target.value)}
-            className="px-3 py-2 pr-8 rounded-md bg-game-status-bg-light dark:bg-game-status-bg-dark border border-game-canvas-border-light dark:border-game-canvas-border-dark text-game-status-text-light dark:text-game-status-text-dark text-sm hover:opacity-80 transition-opacity cursor-pointer appearance-none"
+            className="min-w-30 !pl-1 py-2 pr-8 rounded-md bg-game-status-bg-light dark:bg-game-status-bg-dark border border-game-canvas-border-light dark:border-game-canvas-border-dark text-game-status-text-light dark:text-game-status-text-dark text-sm hover:opacity-80 transition-opacity cursor-pointer appearance-none"
             title="맵 선택"
           >
             {AVAILABLE_MAPS.map((map) => (

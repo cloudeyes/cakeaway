@@ -2,6 +2,13 @@ import { Grid } from '@cakeaway/simulation-engine'
 import Phaser from 'phaser'
 import { GameMap } from './GameMap'
 
+// Window 객체 타입 확장 (개발자 도구용)
+declare global {
+  interface Window {
+    gameScene?: MainScene
+  }
+}
+
 /**
  * 렌더링 큐 아이템 타입
  */
@@ -51,6 +58,11 @@ export class MainScene extends Phaser.Scene {
   private dragStartY: number = 0
   private initialCameraX: number = 0
   private initialCameraY: number = 0
+
+  // 줌 관련 변수들
+  private minZoom: number = 0.3
+  private maxZoom: number = 2.5
+  private zoomSpeed: number = 0.1
 
   constructor() {
     super({ key: 'MainScene' })
@@ -212,6 +224,9 @@ export class MainScene extends Phaser.Scene {
       this.input.on('pointermove', this.handlePointerMove, this)
       this.input.on('pointerup', this.handlePointerUp, this)
 
+      // 마우스 휠 이벤트 설정 (줌 기능)
+      this.input.on('wheel', this.handleWheel, this)
+
       console.log('MainScene: Scene creation complete')
 
     } catch (error) {
@@ -239,9 +254,11 @@ export class MainScene extends Phaser.Scene {
 
       // 전역 접근을 위해 윈도우 객체에 추가 (개발용)
       if (typeof window !== 'undefined') {
-        ;(window as typeof window & { gameScene: MainScene }).gameScene = this
+        window.gameScene = this
         console.log('MainScene: Added to window.gameScene for testing')
         console.log('MainScene: Use window.gameScene.changeMap("/assets/maps/test-valley.json") to test map switching')
+        console.log('MainScene: Use window.gameScene.setZoom(0.5) or window.gameScene.resetZoom() to test zoom')
+        console.log('MainScene: Use window.gameScene.setZoomSettings(0.2, 3.0, 0.15) to adjust zoom parameters')
       }
 
       // 맵 로딩 완료 후 그리드 렌더링
@@ -966,6 +983,55 @@ export class MainScene extends Phaser.Scene {
   }
 
   /**
+   * 마우스 휠 처리 (줌 기능)
+   */
+  private handleWheel(pointer: Phaser.Input.Pointer, _gameObjects: Phaser.GameObjects.GameObject[], _deltaX: number, deltaY: number): void {
+    try {
+      // 현재 카메라 줌 레벨 가져오기
+      const currentZoom = this.cameras.main.zoom
+
+      // 휠 방향에 따른 줌 변화량 계산 (deltaY < 0이면 확대, > 0이면 축소)
+      const zoomDirection = deltaY > 0 ? -1 : 1
+      const zoomDelta = zoomDirection * this.zoomSpeed
+
+      // 새로운 줌 레벨 계산 및 범위 제한 적용
+      const newZoom = Phaser.Math.Clamp(currentZoom + zoomDelta, this.minZoom, this.maxZoom)
+
+      // 마우스 포인터 위치를 중심으로 줌 (자연스러운 줌 효과)
+      if (newZoom !== currentZoom) {
+        // 카메라 스크롤 위치를 고려한 월드 좌표 계산
+        const worldMouseX = pointer.x + this.cameras.main.scrollX
+        const worldMouseY = pointer.y + this.cameras.main.scrollY
+
+        // 줌 전 마우스 포인터의 월드 좌표 저장
+        const preZoomWorldX = worldMouseX / currentZoom
+        const preZoomWorldY = worldMouseY / currentZoom
+
+        // 줌 적용
+        this.cameras.main.setZoom(newZoom)
+
+        // 줌 후 마우스 포인터의 월드 좌표 계산
+        const postZoomWorldX = worldMouseX / newZoom
+        const postZoomWorldY = worldMouseY / newZoom
+
+        // 마우스 포인터 위치가 유지되도록 카메라 스크롤 조정
+        const scrollDeltaX = (postZoomWorldX - preZoomWorldX) * newZoom
+        const scrollDeltaY = (postZoomWorldY - preZoomWorldY) * newZoom
+
+        this.cameras.main.setScroll(
+          this.cameras.main.scrollX + scrollDeltaX,
+          this.cameras.main.scrollY + scrollDeltaY
+        )
+
+        console.log(`MainScene: Zoom changed from ${currentZoom.toFixed(2)} to ${newZoom.toFixed(2)}`)
+      }
+
+    } catch (error) {
+      console.error('MainScene: Error handling wheel:', error)
+    }
+  }
+
+  /**
    * 선택된 타일 하이라이트를 외부 SVG 스프라이트로 렌더링 (0-3 레벨 지원)
    */
   private drawSelectedHighlightSprite(centerX: number, centerY: number, height: number): void {
@@ -1330,5 +1396,53 @@ export class MainScene extends Phaser.Scene {
     const bottom = Math.max(...corners.map(c => c.y))
 
     return { left, right, top, bottom }
+  }
+
+  /**
+   * 현재 줌 레벨 반환
+   */
+  getCurrentZoom(): number {
+    return this.cameras.main.zoom
+  }
+
+  /**
+   * 줌 레벨을 특정 값으로 설정 (애니메이션 없음)
+   */
+  setZoom(zoom: number): void {
+    const clampedZoom = Phaser.Math.Clamp(zoom, this.minZoom, this.maxZoom)
+    this.cameras.main.setZoom(clampedZoom)
+    console.log(`MainScene: Zoom set to ${clampedZoom.toFixed(2)}`)
+  }
+
+  /**
+   * 줌을 기본값(1.0)으로 리셋
+   */
+  resetZoom(): void {
+    this.cameras.main.setZoom(1.0)
+    console.log('MainScene: Zoom reset to 1.0')
+  }
+
+  /**
+   * 줌 설정값 변경
+   */
+  setZoomSettings(minZoom?: number, maxZoom?: number, zoomSpeed?: number): void {
+    if (minZoom !== undefined) {
+      this.minZoom = Math.max(0.1, minZoom)
+    }
+    if (maxZoom !== undefined) {
+      this.maxZoom = Math.min(10.0, maxZoom)
+    }
+    if (zoomSpeed !== undefined) {
+      this.zoomSpeed = Math.max(0.01, Math.min(1.0, zoomSpeed))
+    }
+
+    // 현재 줌이 새로운 범위를 벗어나면 조정
+    const currentZoom = this.cameras.main.zoom
+    if (currentZoom < this.minZoom || currentZoom > this.maxZoom) {
+      const clampedZoom = Phaser.Math.Clamp(currentZoom, this.minZoom, this.maxZoom)
+      this.cameras.main.setZoom(clampedZoom)
+    }
+
+    console.log(`MainScene: Zoom settings updated - min: ${this.minZoom}, max: ${this.maxZoom}, speed: ${this.zoomSpeed}`)
   }
 }

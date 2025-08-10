@@ -1,28 +1,12 @@
 import { Grid } from '@cakeaway/simulation-engine'
 import Phaser from 'phaser'
 import { GameMap } from './GameMap'
+import { type RenderQueueItem } from './types'
 
 // Window 객체 타입 확장 (개발자 도구용)
 declare global {
   interface Window {
     gameScene?: MainScene
-  }
-}
-
-/**
- * 렌더링 큐 아이템 타입
- */
-interface RenderQueueItem {
-  x: number
-  y: number
-  depth: number
-  height: number // 1-3 레벨의 높이 추가
-  type: 'tile' | 'object' | 'selected-highlight' | 'hover-highlight'
-  data?: {
-    color?: number
-    alpha?: number
-    object?: unknown
-    isFloorTile?: boolean // 바닥 타일 여부 표시
   }
 }
 

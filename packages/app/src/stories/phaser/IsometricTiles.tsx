@@ -4,10 +4,10 @@ import Phaser from 'phaser'
 interface IsometricTileInfo {
   gridX: number
   gridY: number
-  screenX: number
-  screenY: number
   isoX: number
   isoY: number
+  tileX: number
+  tileY: number
 }
 
 /**
@@ -106,8 +106,8 @@ export const IsometricTiles: React.FC = () => {
             // 타일 좌표를 데이터로 저장 (screenX, screenY 변수 문제 수정)
             diamond.setData('gridX', x)
             diamond.setData('gridY', y)
-            diamond.setData('screenX', tileX)  // screenX -> tileX
-            diamond.setData('screenY', tileY)  // screenY -> tileY
+            diamond.setData('tileX', tileX)
+            diamond.setData('tlleY', tileY)
             diamond.setData('isoX', isoCoords.x)
             diamond.setData('isoY', isoCoords.y)
 
@@ -192,8 +192,8 @@ export const IsometricTiles: React.FC = () => {
 
           const gridX = tile.getData('gridX')
           const gridY = tile.getData('gridY')
-          const screenX = tile.getData('screenX')
-          const screenY = tile.getData('screenY')
+          const tileX = tile.getData('tileX')
+          const tileY = tile.getData('tileY')
           const isoX = tile.getData('isoX')
           const isoY = tile.getData('isoY')
 
@@ -205,12 +205,12 @@ export const IsometricTiles: React.FC = () => {
           }
 
           setHoveredTile({
-            gridX, gridY, screenX, screenY, isoX, isoY
+            gridX, gridY, tileX, tileY, isoX, isoY
           })
 
           // 호버된 타일 강조 표시
           this.debugGraphics?.fillStyle(0x2ecc71, 0.3)
-          this.debugGraphics?.fillCircle(screenX, screenY, 4)
+          this.debugGraphics?.fillCircle(tileX, tileY, 4)
         } else {
           this.hoverTile = null
           setHoveredTile(null)
@@ -239,12 +239,12 @@ export const IsometricTiles: React.FC = () => {
 
         const gridX = this.selectedTile.getData('gridX')
         const gridY = this.selectedTile.getData('gridY')
-        const screenX = this.selectedTile.getData('screenX')
-        const screenY = this.selectedTile.getData('screenY')
+        const tileX = this.selectedTile.getData('tileX')
+        const tileY = this.selectedTile.getData('tileY')
         const isoX = this.selectedTile.getData('isoX')
         const isoY = this.selectedTile.getData('isoY')
 
-        setClickedTile({ gridX, gridY, screenX, screenY, isoX, isoY })
+        setClickedTile({ gridX, gridY, tileX, tileY, isoX, isoY })
       }
     }
 
@@ -299,7 +299,7 @@ export const IsometricTiles: React.FC = () => {
             <div className="text-sm space-y-1">
               <p><strong>그리드:</strong> ({hoveredTile.gridX}, {hoveredTile.gridY})</p>
               <p><strong>아이소메트릭:</strong> ({hoveredTile.isoX}, {hoveredTile.isoY})</p>
-              <p><strong>화면:</strong> ({Math.round(hoveredTile.screenX)}, {Math.round(hoveredTile.screenY)})</p>
+              <p><strong>화면:</strong> ({Math.round(hoveredTile.tileX)}, {Math.round(hoveredTile.tileY)})</p>
             </div>
           ) : (
             <p>없음</p>
@@ -312,7 +312,7 @@ export const IsometricTiles: React.FC = () => {
             <div className="text-sm space-y-1">
               <p><strong>그리드:</strong> ({clickedTile.gridX}, {clickedTile.gridY})</p>
               <p><strong>아이소메트릭:</strong> ({clickedTile.isoX}, {clickedTile.isoY})</p>
-              <p><strong>화면:</strong> ({Math.round(clickedTile.screenX)}, {Math.round(clickedTile.screenY)})</p>
+              <p><strong>화면:</strong> ({Math.round(clickedTile.tileX)}, {Math.round(clickedTile.tileY)})</p>
             </div>
           ) : (
             <p>없음</p>

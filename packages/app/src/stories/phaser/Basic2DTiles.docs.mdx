@@ -1,0 +1,65 @@
+import { Meta, Markdown } from '@storybook/addon-docs/blocks'
+
+<Meta title="Phaser.js Learning/Basic 2D Tiles/사용법 및 원리" parameters={{ layout: 'fullscreen' }} />
+
+# 2D 타일 시스템 사용법 및 원리
+
+> Phaser.js의 기본 2D 좌표 시스템을 이해하고, 마우스 상호작용을 통한 화면 좌표 → 그리드 좌표 변환의 기초를 학습합니다.
+
+## 학습 목표
+
+- Phaser.js의 2D 좌표계 이해
+- 마우스 이벤트로 타일 호버/선택 처리
+- 화면 좌표를 그리드 좌표로 변환하는 방법 학습
+
+## 코드 구조
+
+1. 타일 생성: `this.add.rectangle()`로 정사각형 타일 생성
+2. 좌표 저장: 각 타일에 그리드 좌표를 `setData()`로 저장
+3. 마우스 이벤트: `pointermove`, `pointerdown` 이벤트 처리
+4. 좌표 변환: 화면 좌표를 그리드 좌표로 변환하는 간단한 공식
+
+## 핵심 함수
+
+```ts
+private getTileAt(x: number, y: number): Phaser.GameObjects.Rectangle | null {
+  const gridX = Math.floor((x - 50) / TILE_SIZE)
+  const gridY = Math.floor((y - 50) / TILE_SIZE)
+
+  if (gridX >= 0 && gridX < GRID_WIDTH && gridY >= 0 && gridY < GRID_HEIGHT) {
+    return this.tiles[gridX][gridY]
+  }
+  return null
+}
+```
+
+## 좌표 변환 원리
+
+### 화면 좌표 → 그리드 좌표
+
+공식:
+
+```ts
+gridX = Math.floor((mouseX - offsetX) / tileSize)
+gridY = Math.floor((mouseY - offsetY) / tileSize)
+```
+
+### 핵심 개념
+
+- 오프셋: 그리드 시작점 보정
+- Math.floor: 소수점 버림으로 정수 좌표
+- 범위 체크: 유효한 그리드 내부인지 확인
+
+## 상호작용
+
+- 기본 상태: 파란색 타일
+- 호버 상태: 마우스를 올린 타일은 초록색
+- 선택 상태: 클릭한 타일은 빨간색
+
+## 다음 단계
+
+2D 시스템을 이해했다면 이제 아이소메트릭 시스템으로 넘어갑니다:
+
+- 다이아몬드 모양 타일
+- 복잡한 좌표 변환 공식
+- 3D 느낌의 시각적 효과

@@ -1,4 +1,5 @@
 @import "tailwindcss";
+
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* Cakeaway 게임을 위한 테마 정의 */
@@ -25,14 +26,6 @@
   --color-game-error: #ef4444;
 }
 
-
-/* 기본 리셋 및 전역 스타일 */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 /* 테마 적용을 위한 기본 스타일 */
 html {
   background-color: #f8fafc;
@@ -42,20 +35,7 @@ html {
 html.dark {
   background-color: #1a1a1a;
   color: #f1f5f9;
-}
-
-body {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  min-width: 320px;
-  min-height: 100vh;
-  overflow: hidden; /* 게임 화면에서 스크롤 방지 */
-  background-color: inherit;
-  color: inherit;
 }
 
 #root {

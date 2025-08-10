@@ -77,12 +77,6 @@ export const IsometricTiles: React.FC = () => {
           color: '#bdc3c7'
         })
 
-        // 계산된 오프셋 정보 표시
-        this.add.text(10, 100, `Calculated Offset: (${OFFSET_X}, ${OFFSET_Y})`, {
-          fontSize: '12px',
-          color: '#f39c12'
-        })
-
         // 마우스 이벤트 등록
         this.input.on('pointermove', this.handlePointerMove, this)
         this.input.on('pointerdown', this.handlePointerDown, this)
@@ -118,8 +112,8 @@ export const IsometricTiles: React.FC = () => {
             diamond.setData('isoY', isoCoords.y)
 
             // 좌표 표시
-            this.add.text(tileX - TILE_WIDTH / 2, tileY - TILE_HEIGHT / 2, `${x},${y}`, {
-              fontSize: '8px',
+            this.add.text(tileX - TILE_WIDTH / 2 - 8, tileY - TILE_HEIGHT / 2 - 4, `${x},${y}`, {
+              fontSize: '10px',
               color: '#ffffff'
             })
 
@@ -176,11 +170,6 @@ export const IsometricTiles: React.FC = () => {
         const mouseIsoY = pointer.y - OFFSET_Y
         const gridCoords = this.isometricToGrid(mouseIsoX, mouseIsoY)
 
-        // 디버그: +1 보정 없이 계산한 결과도 확인
-        const gridX_raw = (mouseIsoX / (TILE_WIDTH / 2) + mouseIsoY / (TILE_HEIGHT / 2)) / 2
-        const gridY_raw = (mouseIsoY / (TILE_HEIGHT / 2) - mouseIsoX / (TILE_WIDTH / 2)) / 2
-        const gridCoords_raw = { x: Math.round(gridX_raw), y: Math.round(gridY_raw) }
-
         // 디버그 정보 그리기
         this.debugGraphics?.clear()
         this.debugGraphics?.lineStyle(1, 0xe74c3c, 0.5)
@@ -211,7 +200,7 @@ export const IsometricTiles: React.FC = () => {
           // 좌표 정보 업데이트 (디버그 정보 포함)
           if (this.coordinateText) {
             this.coordinateText.setText(
-              `Grid:(${gridX},${gridY}) | Raw:(${gridCoords_raw.x},${gridCoords_raw.y}) | +1:(${gridCoords.x},${gridCoords.y}) | Mouse:(${Math.round(pointer.x)},${Math.round(pointer.y)})`
+              `Grid:(${gridX},${gridY}) | Mouse:(${Math.round(pointer.x)},${Math.round(pointer.y)})`
             )
           }
 
@@ -230,7 +219,7 @@ export const IsometricTiles: React.FC = () => {
         // 기본 마우스 정보 표시
         if (!this.hoverTile && this.coordinateText) {
           this.coordinateText.setText(
-            `Mouse:(${Math.round(pointer.x)},${Math.round(pointer.y)}) | Raw:(${gridCoords_raw.x.toFixed(1)},${gridCoords_raw.y.toFixed(1)}) | +1:(${gridCoords.x.toFixed(1)},${gridCoords.y.toFixed(1)})`
+            `Grid:(${gridCoords.x},${gridCoords.y}) | Mouse:(${Math.round(pointer.x)},${Math.round(pointer.y)})`
           )
         }
       }
